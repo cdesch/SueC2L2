@@ -192,7 +192,8 @@ void SmcArray<Element>::insertItem(Element value, int index){
         Element * newArray = new Element[this->getSize()+1];
         
         //Copy array that is increased by 1 at given index from the original array into the new array
-        if (index < 0 || index >= this->size+1) cout << "The index of the item to be removed is out of range." << endl;
+        if (index < 0 || index >= this->size+1)
+            cout << "The index of the item to be removed is out of range." << endl;
         else{
             //sets the values in array before the inserted value
             for (int i = 0; i < index; i++) newArray[i] = items[i];

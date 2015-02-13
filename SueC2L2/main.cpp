@@ -20,37 +20,108 @@
 #include "BigInt.hpp"
 
 using namespace std;
+//TODO: Makefile
 
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
     BigInt* myBigInt = new BigInt();
     
+    //Testing assign with inputs as integers and string
     myBigInt->assign(1234);
     myBigInt->print();
     myBigInt->assign("5678");
     myBigInt->print();
     
-
-   BigInt secondBigInt;
-   secondBigInt.assign(2222);
-    secondBigInt.print();
+    cout << "===================" << endl;
+    BigInt secondBigInt;
+    //Compares two numbers where A is greater than B
+    secondBigInt.assign(5678);
+    //secondBigInt.print();
     if(myBigInt->compare(secondBigInt) > 0){
         cout << "A is greater than B" << endl;
     }else if (myBigInt->compare(secondBigInt) < 0){
-        cout << "B is grater than A" <<  endl;
+        cout << "B is greater than A" <<  endl;
     }else{
         cout << "A is Equal to B" << endl;
     }
-   
-   secondBigInt.print();
+    cout << "A = ";
+    myBigInt->print();
+    cout << "B = ";
+    secondBigInt.print();
+    cout << "===================" << endl;
     
-   myBigInt->add(secondBigInt);
-   myBigInt->print();
+    //Compares two numbers where B is greater than A
+    secondBigInt.assign(6789);
+    //secondBigInt.print();
+    if(myBigInt->compare(secondBigInt) > 0){
+        cout << "A is greater than B" << endl;
+    }else if (myBigInt->compare(secondBigInt) < 0){
+        cout << "B is greater than A" <<  endl;
+    }else{
+        cout << "A is Equal to B" << endl;
+    }
+    cout << "A = ";
+    myBigInt->print();
+    cout << "B = ";
+    secondBigInt.print();
+    cout << "===================" << endl;
+    
+    //Compares two numbers where two numbers are equak
+    secondBigInt.assign(6199);
+    //secondBigInt.print();
+    if(myBigInt->compare(secondBigInt) > 0){
+        cout << "A is greater than B" << endl;
+    }else if (myBigInt->compare(secondBigInt) < 0){
+        cout << "B is greater than A" <<  endl;
+    }else{
+        cout << "A is Equal to B" << endl;
+    }
+    cout << "A = ";
+    myBigInt->print();
+    cout << "B = ";
+    secondBigInt.print();
+    cout << "==================="<< endl;
     
     
-   myBigInt->subtract(secondBigInt);
-   myBigInt->print(); 
+    
+    //Testing adding A + B
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+       Addition                     +" << endl;
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "A = ";
+    myBigInt->print();
+    cout << "B = ";
+    secondBigInt.print();
+    myBigInt->add(secondBigInt);
+    cout << "The result when adding A + B: ";
+    myBigInt->print();
+    cout << "==================="<< endl;
+    
+    secondBigInt.assign(6199);
+    //Testing subtraction for A - B
+    cout << "--------------------------------------" << endl;
+    cout << "|       Subtraction                  |" << endl;
+    cout << "--------------------------------------" << endl;
+    cout << "A = ";
+    myBigInt->print();
+    cout << "B = ";
+    secondBigInt.print();
+    myBigInt->subtract(secondBigInt);
+    cout << "The result when subtracting A - B: ";
+    myBigInt->print();
+    cout << "==================="<< endl;
+    
+    //His example
+    BigInt a, b, c;
+    a.assign("123456789012345678901234567890");
+    b.assign("111222333444555666777888999000"); //234679122456901345679123566890
+    c.assign(696969);        // 69 is small enough to be an int.
+    //234679122456901345679122869921
+    a.add(b);                // a += b;
+    a.print();
+    a.subtract(c);           // a -= b;
+    a.print();
     
     return 0;
 }

@@ -22,13 +22,15 @@ protected:
 public:
     BigInt();                        // initialise to zero.
     ~BigInt(); //Deconstructor
-    void assign(const BigInt & a);
+    void assign( BigInt & a);
     void assign(int a);              // various ways to initialise
     void assign(string a);
     void print();
-    void add(const BigInt & a);
-    void subtract(const BigInt & a);
-    int compare(const BigInt & a);
+    void add( BigInt & a);
+    void subtract( BigInt & a);
+    int compare( BigInt & a);
+    int compare( BigInt * a);
+    
     int getSize();
     int convertCharToInt(char c);
     void removeLeadingZeros(const BigInt & a);
@@ -49,19 +51,18 @@ BigInt::~BigInt(){
 }
 
 //Assigning a big int
-void BigInt::assign(const BigInt & a){
+void BigInt::assign( BigInt & a){
     //TODO: Chris - Give structure and hints
 }
 
+//Take an integer and split into digits
 void BigInt::assign(int a){
-
-    //In this case it will take an integer\
-    //Hint is Modulus  -- Loop until until no remainder
+    //Modulus  -- Loop until until no remainder
     // e.g.            54321
-    //      break into 5 4 3 2 1
+    //      breaks into 5 4 3 2 1
     int b = a;
     int length = 1;
-    while ( b /= 10 )
+    while (b /= 10)
         length++;
     int digit;
     this->digits.changeSize(length);
@@ -70,42 +71,20 @@ void BigInt::assign(int a){
         a = a / 10;
         this->digits.setItem(digit,length-1-i);
     }
-
-    
 }
 
+//Take a string and split into digits
 void BigInt::assign(string a){
-
-    //In this case it will take a string
-    //like in the last class lab 3 - you'll need to break apart the number and put it in the the "this->digits"
     //1) Loop through each character in string
     //2) covert that character to an integer
-    //3) add that integer into the "this->digits" array
-    //How to add: this->digits.pushItem(value)
+    //3) add that integer into the "this->digits" array by using setItem
     this->digits.changeSize((int)a.size());  //FIXME: Cast to int (unsigned int)
     for(int i = 0; i < a.size(); i++){
         char myChar = a.at(i);
         int myTempInt = this->convertCharToInt(myChar);
         this->digits.setItem(myTempInt, i);
     }
-
 }
-
-/*
- void BigInt::removeLeadingZeros(const BigInt & a){
- for (int i = 0; i < this->digits.getSize(); i++){
- b = a;
- if(b->getItem() == 0){
- //remove that leading 0;
- b str.erase(a str.begin()+0);
- }else{
- return a;
- }
- }
- return a.at;
- }
- */
-
 
 //Print the bigInt
 void BigInt::print(){
@@ -115,121 +94,112 @@ void BigInt::print(){
     cout << endl;
 }
 
-
-void BigInt::add(const BigInt & a){
-    //TODO:
-    //HINT : this->digits           == myDigits
-    // this->digits.getSize()       == myDigits.size()
-    // b.digits.getItem(i)          == numVector[i]->getValue()
-    // this->digits.getItem(i-newIndex) == myDigits[i-newIndex]->getValue()
-    // b.digits.setItem(sumNum, i ) == numVector[i]->setValue(sumNum);
-    // getItem(i)                   == getValue(i)
-    // setItem(value, index)        == setValue
-    
-    //Refer to last assignment
-    BigInt b = a; //Use b to prevent frustration
+//Adding two large integers that have been split into an array of large digits
+void BigInt::add( BigInt & a){
     int carry = 0;
-    int newIndex, index;   //Index is right index -- consider changing the name to lastIndex
+    int newIndex, index;
     int sumNum = 0;
     index = this->digits.getSize()-1;
-    newIndex = abs(this->digits.getSize() - b.digits.getSize());
+    newIndex = abs(this->digits.getSize() - a.digits.getSize());
     
-    //If myDigits is less than, store numbers in numVector
-    if(this->digits.getSize() <= b.digits.getSize()){
-        index = b.digits.getSize()-1;
+    //Determines the size of loop if a.digits is less than digits then index is one less than a.digits
+    if(this->digits.getSize() <= a.digits.getSize()){
+        index = a.digits.getSize()-1;
         for(int i = index; i >= newIndex; i--){
-            sumNum = b.digits.getItem(i) + this->digits.getItem(i-newIndex) + carry;
+            //Sums the digits and any carry
+            sumNum = a.digits.getItem(i) + this->digits.getItem(i-newIndex) + carry;
             if(sumNum >= 10){
                 carry = (sumNum/10) % 10;
                 sumNum=sumNum-10;
             }else{
+                //Setting carry back to zero
                 carry = 0;
             }
             
-            b.digits.setItem(sumNum, i);
+            a.digits.setItem(sumNum, i);
         }
-        if(carry == 1) {
-            b.digits.setItem(b.digits.getItem(newIndex-1)+1 , newIndex-1);
+        //If there is a carry
+        if(carry != 0) {
+            a.digits.insertItem(carry, 0);
         }
+        //Storing added vectors in digits
+        this->digits = a.digits;
         
-        this->digits = b.digits;
-        
-    }else if(this->digits.getSize() > b.digits.getSize()){
-
-        for(int i = this->digits.getSize()-1; i >= newIndex; i--){
-            sumNum = this->digits.getItem(i-newIndex) + b.digits.getItem(i) + carry;
+        //Determines the size of loop if a.digits is greater than digits
+    }else if(this->digits.getSize() > a.digits.getSize()){
+        index = digits.getSize()-1;
+        for(int i = index; i >= newIndex; i--){
+            sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
             if(sumNum >= 10){
                 carry = sumNum / 10;
                 sumNum = sumNum % 10;
-            }
-            else{
+            }else{
                 carry = 0;
             }
-            this->digits.setItem(sumNum, i );
+            this->digits.setItem(sumNum, i);
         }
-        //
-        if(carry==1){
-            this->digits.setItem(this->digits.getItem(newIndex-1)+1 , newIndex-1);
+        //If there is a carry
+        if(carry!= 0){
+            this->digits.insertItem(carry, 0);
         }
     }
 }
 
-
-void BigInt::subtract(const BigInt & a){
-    //Refer to last assignment
-    BigInt b = a; //Use b to prevent frustration
-    int maxindex=0;
-    int index=0;
-    int diffNum=0;
-   
-    /*
-    if(isGreaterThan(numVector)) {
-        cout << "Error, negative result." << endl; //Return error
-        return;
-    }*/
+//Subtracting two integers, results must be positive.
+void BigInt::subtract( BigInt & a){
+    int maxindex = 0;  //maximum index
+    int index = 0;
+    int diffNum = 0;
     
     index = this->digits.getSize() - 1;
-    maxindex = this->digits.getSize() - b.digits.getSize();
+    maxindex = this->digits.getSize() - a.digits.getSize();
+    
+    //Compares two numbers to determine if the the result will be a negative number. If negative result, program ends.
+    if(this->compare(a) < 0){
+        cerr << "Error, negative result." << endl; //Return error
+        return; //Return early
+    }
     
     for(int i = index; i >= maxindex;){
-        if(this->digits.getItem(i) < b.digits.getItem(i-maxindex)){
+        if(this->digits.getItem(i) < a.digits.getItem(i-maxindex)){
             this->digits.setItem(this->digits.getItem(i) + 10, i);
             this->digits.setItem(this->digits.getItem(i-1)-1, i-1);
         }
-       diffNum = this->digits.getItem(i) -  b.digits.getItem(i-maxindex);
+        diffNum = this->digits.getItem(i) -  a.digits.getItem(i-maxindex);
         this->digits.setItem(diffNum, i);
         i=i-1;
-        
     }
     //Remove Leading zeros
-    //this->digits = removeLeadingZeros(this->digits);
-
+    for(int i = 0; i <= this->digits.getSize()-1;){
+        //if the number is not equal to 0 or there is only 1 element left in the array, stop removing zeros
+        if(digits.getItem(i) != 0 || this->digits.getSize() <= 1){
+            return;
+        }else{
+            if(digits.getItem(i) == 0 )
+                this->digits.removeItem(i);
+        }
+        i=i;
+    }
 }
 
-
-//TODO: Comments
-//TODO: Test cases
-int BigInt::compare(const BigInt & a){
-    //Refer to last semester assignment
-    BigInt b = a; //Copy for manipulation purposes
-    //
-    if(this->digits.getSize() < b.getSize()){
+//Comparing two numbers to check if they are >, <, =
+int BigInt::compare( BigInt & a){
+    
+    //Compares the size of the arrays
+    if(this->digits.getSize() > a.getSize()){
         return 1;
-    }else if(this->digits.getSize() > b.getSize()){
+    }else if(this->digits.getSize() < a.getSize()){
         return -1;
     }else{
-        
         //The numbers of digits must equal
         //Loop through each digit and determine which BigInt is larger
-        //Number 123456334322
-        //Number 123457335322 <-- This number is greater
         for(int i = 0; i < this->digits.getSize(); i++){
             //cout << i << " i " << myDigits.size() << endl;
-            if(this->digits.getItem(i) > b.digits.getItem(i)){
+            if(this->digits.getItem(i) > a.digits.getItem(i)){
                 //If these are equal to each other continue
                 return 1;
                 
-            }else if(this->digits.getItem(i) < b.digits.getItem(i) ) {
+            }else if(this->digits.getItem(i) < a.digits.getItem(i) ) {
                 return -1;
             }
             //if else continue;
@@ -238,6 +208,32 @@ int BigInt::compare(const BigInt & a){
     }
 }
 
+//Using pointer instead of pass by reference
+int BigInt::compare(BigInt * a){
+    //Compares the size of the arrays
+    if(this->digits.getSize() > a->getSize()){
+        return 1;
+    }else if(this->digits.getSize() < a->getSize()){
+        return -1;
+    }else{
+        //The numbers of digits must equal
+        //Loop through each digit and determine which BigInt is larger
+        for(int i = 0; i < this->digits.getSize(); i++){
+            //cout << i << " i " << myDigits.size() << endl;
+            if(this->digits.getItem(i) > a->digits.getItem(i)){
+                //If these are equal to each other continue
+                return 1;
+                
+            }else if(this->digits.getItem(i) < a->digits.getItem(i) ) {
+                return -1;
+            }
+            //if else continue;
+        }
+        return 0;  //Did not find any numbers that were < >, the numbers are equal
+    }
+}
+
+//Gets the size of an array
 int BigInt::getSize(){
     return this->digits.getSize();
 }

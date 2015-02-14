@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		235B12A71A8ABB140002C129 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 235B12A61A8ABB140002C129 /* main.cpp */; };
+		235B12DB1A8EC6A20002C129 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 235B12DA1A8EC6A20002C129 /* Makefile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,6 +28,7 @@
 		235B12A61A8ABB140002C129 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		235B12AE1A8ABC780002C129 /* SmcArray.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SmcArray.hpp; sourceTree = "<group>"; };
 		235B12B11A8AC03F0002C129 /* BigInt.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigInt.hpp; sourceTree = "<group>"; };
+		235B12DA1A8EC6A20002C129 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +45,7 @@
 		235B129A1A8ABB140002C129 = {
 			isa = PBXGroup;
 			children = (
+				235B12DA1A8EC6A20002C129 /* Makefile */,
 				235B12A51A8ABB140002C129 /* SueC2L2 */,
 				235B12A41A8ABB140002C129 /* Products */,
 			);
@@ -122,6 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				235B12DB1A8EC6A20002C129 /* Makefile in Sources */,
 				235B12A71A8ABB140002C129 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,6 +240,7 @@
 				235B12AC1A8ABB140002C129 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

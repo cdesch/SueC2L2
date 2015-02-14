@@ -76,7 +76,7 @@ public:
     Element getDefault(); //Returns the default value
     void changeSize(int newSize); //Changes the array size
     
-private:
+protected:
     int size; // Size of array (elements)
     Element * items; //Array of items of type element
     Element defaultValue;// Default value

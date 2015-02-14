@@ -30,7 +30,6 @@ public:
     void subtract( BigInt & a);
     int compare( BigInt & a);
     int compare( BigInt * a);
-    
     int getSize();
     int convertCharToInt(char c);
     void removeLeadingZeros(const BigInt & a);

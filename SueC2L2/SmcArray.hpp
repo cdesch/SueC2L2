@@ -65,10 +65,12 @@ public:
     SmcArray(int s); //  Constructor with params
     ~SmcArray(); // Deconstructor
     
-    int getSize(); // Get size of array
+    int getSize() const; // Get size of array
     void pushItem(Element value); //inserts item on end of the array
     void setItem(Element value, int index); //sets an item  (overwrites) at given index
     Element getItem(int index); //retrieves an item at a given index - This item can be of Type Element, which can be several different types
+
+    Element getItem(int index) const; //retrieves an item at a given index w/const
     void insertItem(Element value, int index); //inserts an item at a given index
     void removeItem(int index); // Delete array item
     void printArray(bool linear); // Print Array
@@ -83,13 +85,14 @@ protected:
     void allocateArray();//Allocates an array of given size
     void copyArrayIncreasedSize(int s); //Copies an array with increased size
     void copyArrayDecreasedSizeby1(int , int); //Decreases the size by 1 and leaves out a specific index;
-    bool checkIndexBounds(int index);//Checks the array is within bounds
+    bool checkIndexBounds(int index) const;//Checks the array is within bounds
 };
 
 
 //Default Constructor
 template <class Element>
 SmcArray<Element>::SmcArray(){
+    //cout << __PRETTY_FUNCTION__ << endl;
     //Set the array using the defaults
     this->size = defaultSize;
     
@@ -101,6 +104,7 @@ SmcArray<Element>::SmcArray(){
 //Constructor with params
 template <class Element>
 SmcArray<Element>::SmcArray(int s){
+    //cout << __PRETTY_FUNCTION__ << endl;
     this->size = s;
     
     //Allocate an array of this->size
@@ -111,7 +115,7 @@ SmcArray<Element>::SmcArray(int s){
 //Deletes the items in array
 template <class Element>
 SmcArray<Element>::~SmcArray(){
-    //delete [] this->items; //Fixme
+    delete [] this->items;
 }
 
 //Allocates an array of given size
@@ -123,7 +127,7 @@ void SmcArray<Element>::allocateArray(){
 
 //Gets size of the array
 template <class Element>
-int SmcArray<Element>::getSize(){
+int SmcArray<Element>::getSize() const{
     return this->size; //returns the size fo the array
 }
 
@@ -178,6 +182,24 @@ Element SmcArray<Element>::getItem(int index){
         return this->defaultValue; //returns the default value
     }
 }
+
+//Gets an item in the array and checks to see if the index is within bounds
+template <class Element>
+Element SmcArray<Element>::getItem(int index) const{
+    //Check to see if the index can be retrieved
+    if(this->checkIndexBounds(index)){
+        
+        //Write to the array
+        return this->items[index]; //writes the value into the item array
+        
+    }else{
+        //Even though this will return the default value the user is prompted with a message indicating that a default value has been returned
+        cerr << __PRETTY_FUNCTION__ << "- WARNING: Returning Default Value\n ";//_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
+        
+        return this->defaultValue; //returns the default value
+    }
+}
+
 
 //insert an item to the at the given index of the array
 template <class Element>
@@ -309,7 +331,7 @@ void SmcArray<Element>::copyArrayDecreasedSizeby1(int s, int index){
 
 //Checks if the index is within the bounds of the array
 template <class Element>
-bool SmcArray<Element>::checkIndexBounds(int index){
+bool SmcArray<Element>::checkIndexBounds(int index) const{
     if(index >= minSize && index < this->size){ //checks if the index is greater than or equal to the minimum size and less than size of the array
         return true; //if yes then return true
     }else{

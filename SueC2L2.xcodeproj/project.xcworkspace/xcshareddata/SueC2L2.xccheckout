@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>FD862F61-1F22-4735-A68C-23D84D789164</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SueC2L2</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>23DC448FC8FC62B78FE6F8BBE290C3837440734E</key>
+		<string>https://github.com/cdesch/SueC2L2.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SueC2L2.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>23DC448FC8FC62B78FE6F8BBE290C3837440734E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/cdesch/SueC2L2.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>23DC448FC8FC62B78FE6F8BBE290C3837440734E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>23DC448FC8FC62B78FE6F8BBE290C3837440734E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SueC2L2</string>
+		</dict>
+	</array>
+</dict>
+</plist>

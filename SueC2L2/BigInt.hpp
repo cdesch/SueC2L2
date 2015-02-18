@@ -16,7 +16,7 @@ const int kDefaultBigIntSize = 10;
 class BigInt
 {
 protected:
-    SmcArray<int> digits;    // ass you created for assignment 1
+    SmcArray<int> digits = SmcArray<int>(1);
     
 public:
     BigInt();                        // initialise to zero.
@@ -34,37 +34,29 @@ public:
     void removeLeadingZeros(const BigInt & a);
 };
 
-/*
- public:
- bigint();                        // initialise to zero.
- void assign(const bigint & a);
- void assign(int a);              // various ways to initialise
- void assign(string a);
- void print();
- void add(const bigint & a);
- void subtract(const bigint & a);
- int compare(const bigint & a);
-*/
-
 //Constructor
 BigInt::BigInt(){
     //Initialize an array object
     //cout << __PRETTY_FUNCTION__ << " Starts " << endl;
-    this->digits = SmcArray<int>(1);
-    this->digits.setItem(1, 0);  //FIXME : Chris
+    this->digits.setItem(1, 0); //intialize with 0
     //cout << __PRETTY_FUNCTION__ << " Ends " << endl;
 }
 //Constructor
 BigInt::~BigInt(){
     //Delete the digits object
+    //delete this->digits; //Not needed without pointer
 }
 
 //Assigning a big int
 void BigInt::assign(const BigInt & a){
-    //TODO: Chris - Give structure and hints
     
-
+    //Change the existing size to the new size
+    this->digits.changeSize(a.getSize());
     
+    //Iterate through the array and copy everything over
+    for (int i = 0; i < a.getSize(); i++){
+        this->digits.setItem(a.digits.getItem(i), i);
+    }
     
 }
 
@@ -116,31 +108,25 @@ void BigInt::add(const BigInt & a){
     newIndex = abs(this->digits.getSize() - a.digits.getSize());
     
     //Determines the size of loop if a.digits is less than digits then index is one less than a.digits
-    if(this->digits.getSize() <= a.digits.getSize()){
+    if(this->digits.getSize() < a.digits.getSize()){
+        this->digits.changeSize(a.digits.getSize()); //Change digits to be the size of the larger number, which happens to be 'a'
         index = a.digits.getSize()-1;
         for(int i = index; i >= newIndex; i--){
-            //Sums the digits and any carry
-            
-            sumNum = a.digits.getItem(i) + this->digits.getItem(i-newIndex) + carry;
+            sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
             if(sumNum >= 10){
-                carry = (sumNum/10) % 10;
-                sumNum=sumNum-10;
+                carry = sumNum / 10;
+                sumNum = sumNum % 10;
             }else{
-                //Setting carry back to zero
                 carry = 0;
             }
-            
-            a.digits.setItem(sumNum, i);
+            this->digits.setItem(sumNum, i);
         }
         //If there is a carry
-        if(carry != 0) {
-            a.digits.insertItem(carry, 0);
+        if(carry!= 0){
+            this->digits.insertItem(carry, 0);
         }
-        //Storing added vectors in digits
-        this->digits = a.digits;
-        
         //Determines the size of loop if a.digits is greater than digits
-    }else if(this->digits.getSize() > a.digits.getSize()){
+    }else if(this->digits.getSize() >= a.digits.getSize()){
         index = digits.getSize()-1;
         for(int i = index; i >= newIndex; i--){
             sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;

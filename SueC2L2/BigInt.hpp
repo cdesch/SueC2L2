@@ -17,24 +17,34 @@ class BigInt
 {
 protected:
     SmcArray<int> digits;    // ass you created for assignment 1
-    // any other members you need
     
 public:
     BigInt();                        // initialise to zero.
     ~BigInt(); //Deconstructor
-    void assign( BigInt & a);
+    void assign(const BigInt & a);
     void assign(int a);              // various ways to initialise
     void assign(string a);
     void print();
-    void add( BigInt & a);
-    void subtract( BigInt & a);
-    int compare( BigInt & a);
-    int compare( BigInt * a);
-    int getSize();
+    void add(const BigInt & a);
+    void subtract(const BigInt & a);
+    int compare(const BigInt & a);
+    int compare(BigInt * a); //My favorite
+    int getSize() const;
     int convertCharToInt(char c);
     void removeLeadingZeros(const BigInt & a);
-    // any "helper methods" you want
 };
+
+/*
+ public:
+ bigint();                        // initialise to zero.
+ void assign(const bigint & a);
+ void assign(int a);              // various ways to initialise
+ void assign(string a);
+ void print();
+ void add(const bigint & a);
+ void subtract(const bigint & a);
+ int compare(const bigint & a);
+*/
 
 //Constructor
 BigInt::BigInt(){
@@ -50,8 +60,12 @@ BigInt::~BigInt(){
 }
 
 //Assigning a big int
-void BigInt::assign( BigInt & a){
+void BigInt::assign(const BigInt & a){
     //TODO: Chris - Give structure and hints
+    
+
+    
+    
 }
 
 //Take an integer and split into digits
@@ -85,7 +99,7 @@ void BigInt::assign(string a){
     }
 }
 
-//Print the bigInt
+//Print bigInt
 void BigInt::print(){
     for (int i  = 0; i < this->digits.getSize() ; i++){
         cout << this->digits.getItem(i);
@@ -94,7 +108,7 @@ void BigInt::print(){
 }
 
 //Adding two large integers that have been split into an array of large digits
-void BigInt::add( BigInt & a){
+void BigInt::add(const BigInt & a){
     int carry = 0;
     int newIndex, index;
     int sumNum = 0;
@@ -106,6 +120,7 @@ void BigInt::add( BigInt & a){
         index = a.digits.getSize()-1;
         for(int i = index; i >= newIndex; i--){
             //Sums the digits and any carry
+            
             sumNum = a.digits.getItem(i) + this->digits.getItem(i-newIndex) + carry;
             if(sumNum >= 10){
                 carry = (sumNum/10) % 10;
@@ -145,7 +160,7 @@ void BigInt::add( BigInt & a){
 }
 
 //Subtracting two integers, results must be positive.
-void BigInt::subtract( BigInt & a){
+void BigInt::subtract(const BigInt & a){
     int maxindex = 0;  //maximum index
     int index = 0;
     int diffNum = 0;
@@ -155,7 +170,7 @@ void BigInt::subtract( BigInt & a){
     
     //Compares two numbers to determine if the the result will be a negative number. If negative result, program ends.
     if(this->compare(a) < 0){
-        cerr << "Error, negative result." << endl; //Return error
+        cerr << "Error, negative result and returns early without performing subtraction operation." << endl; //Return error
         return; //Return early
     }
     
@@ -182,7 +197,7 @@ void BigInt::subtract( BigInt & a){
 }
 
 //Comparing two numbers to check if they are >, <, =
-int BigInt::compare( BigInt & a){
+int BigInt::compare(const BigInt & a){
     
     //Compares the size of the arrays
     if(this->digits.getSize() > a.getSize()){
@@ -233,7 +248,7 @@ int BigInt::compare(BigInt * a){
 }
 
 //Gets the size of an array
-int BigInt::getSize(){
+int BigInt::getSize() const{
     return this->digits.getSize();
 }
 

@@ -13,10 +13,9 @@
 
 const int kDefaultBigIntSize = 10;
 
-class BigInt
-{
+class BigInt{
 protected:
-    SmcArray<int> digits = SmcArray<int>(1);
+    SmcArray<int> digits;
     
 public:
     BigInt();                        // initialise to zero.
@@ -28,7 +27,6 @@ public:
     void add(const BigInt & a);
     void subtract(const BigInt & a);
     int compare(const BigInt & a);
-    int compare(BigInt * a); //My favorite
     int getSize() const;
     int convertCharToInt(char c);
     void removeLeadingZeros(const BigInt & a);
@@ -37,19 +35,14 @@ public:
 //Constructor
 BigInt::BigInt(){
     //Initialize an array object
-    //cout << __PRETTY_FUNCTION__ << " Starts " << endl;
     this->digits.setItem(1, 0); //intialize with 0
-    //cout << __PRETTY_FUNCTION__ << " Ends " << endl;
 }
 //Constructor
 BigInt::~BigInt(){
-    //Delete the digits object
-    //delete this->digits; //Not needed without pointer
 }
 
 //Assigning a big int
 void BigInt::assign(const BigInt & a){
-    
     //Change the existing size to the new size
     this->digits.changeSize(a.getSize());
     
@@ -57,7 +50,6 @@ void BigInt::assign(const BigInt & a){
     for (int i = 0; i < a.getSize(); i++){
         this->digits.setItem(a.digits.getItem(i), i);
     }
-    
 }
 
 //Take an integer and split into digits
@@ -83,7 +75,7 @@ void BigInt::assign(string a){
     //1) Loop through each character in string
     //2) covert that character to an integer
     //3) add that integer into the "this->digits" array by using setItem
-    this->digits.changeSize((int)a.size());  //FIXME: Cast to int (unsigned int)
+    this->digits.changeSize((int) a.size());
     for(int i = 0; i < a.size(); i++){
         char myChar = a.at(i);
         int myTempInt = this->convertCharToInt(myChar);
@@ -175,7 +167,7 @@ void BigInt::subtract(const BigInt & a){
         if(digits.getItem(i) != 0 || this->digits.getSize() <= 1){
             return;
         }else{
-            if(digits.getItem(i) == 0 )
+            if(digits.getItem(i) == 0)
                 this->digits.removeItem(i);
         }
         i=i;
@@ -184,7 +176,6 @@ void BigInt::subtract(const BigInt & a){
 
 //Comparing two numbers to check if they are >, <, =
 int BigInt::compare(const BigInt & a){
-    
     //Compares the size of the arrays
     if(this->digits.getSize() > a.getSize()){
         return 1;
@@ -194,7 +185,6 @@ int BigInt::compare(const BigInt & a){
         //The numbers of digits must equal
         //Loop through each digit and determine which BigInt is larger
         for(int i = 0; i < this->digits.getSize(); i++){
-            //cout << i << " i " << myDigits.size() << endl;
             if(this->digits.getItem(i) > a.digits.getItem(i)){
                 //If these are equal to each other continue
                 return 1;
@@ -202,32 +192,6 @@ int BigInt::compare(const BigInt & a){
             }else if(this->digits.getItem(i) < a.digits.getItem(i) ) {
                 return -1;
             }
-            //if else continue;
-        }
-        return 0;  //Did not find any numbers that were < >, the numbers are equal
-    }
-}
-
-//Using pointer instead of pass by reference
-int BigInt::compare(BigInt * a){
-    //Compares the size of the arrays
-    if(this->digits.getSize() > a->getSize()){
-        return 1;
-    }else if(this->digits.getSize() < a->getSize()){
-        return -1;
-    }else{
-        //The numbers of digits must equal
-        //Loop through each digit and determine which BigInt is larger
-        for(int i = 0; i < this->digits.getSize(); i++){
-            //cout << i << " i " << myDigits.size() << endl;
-            if(this->digits.getItem(i) > a->digits.getItem(i)){
-                //If these are equal to each other continue
-                return 1;
-                
-            }else if(this->digits.getItem(i) < a->digits.getItem(i) ) {
-                return -1;
-            }
-            //if else continue;
         }
         return 0;  //Did not find any numbers that were < >, the numbers are equal
     }

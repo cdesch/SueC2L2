@@ -9,17 +9,6 @@
 #ifndef __SueC2L2__SmcArray__
 #define __SueC2L2__SmcArray__
 
-#include <stdio.h>
-#include <string>
-#include <fstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sstream>
-#include <stdexcept>
-#include <assert.h>
-#include <vector>
-#include <math.h>
-
 using namespace std;
 
 //Constants
@@ -45,17 +34,6 @@ char genRandomChar(){
     return alphanum[rand() % stringLength]; //character generator and returns a random charater
 }
 
-//Helper Functions
-//Creates & returns random string to specified length
-string generateRandomStringOfLength(int length){
-    string myGeneratedString;
-    for (int i = 0; i < length; i ++){
-        myGeneratedString += genRandomChar();//Puts random string in specified length
-    }
-    return myGeneratedString; //returns the random string
-}
-
-
 //Class Template of Element for each item
 template<class Element>
 class SmcArray{
@@ -76,7 +54,7 @@ public:
     void printArray(bool linear); // Print Array
     void setDefault(Element value); //Sets a default value for out of bounds index expansions via changeSize
     Element getDefault(); //Returns the default value
-    void changeSize(int newSize); //Changes the array size
+    void changeSize(unsigned int newSize); //Changes the array size
     
 protected:
     int size; // Size of array (elements)
@@ -84,10 +62,8 @@ protected:
     Element defaultValue;// Default value
     void allocateArray();//Allocates an array of given size
     void copyArrayIncreasedSize(int s); //Copies an array with increased size
-    void copyArrayDecreasedSizeby1(int , int); //Decreases the size by 1 and leaves out a specific index;
     bool checkIndexBounds(int index) const;//Checks the array is within bounds
 };
-
 
 //Default Constructor
 template <class Element>
@@ -210,7 +186,6 @@ void SmcArray<Element>::insertItem(Element value, int index){
     
     //Checks that within bounds
     if (minSize <= index &&  index < this->getSize() ){
-        
         Element * newArray = new Element[this->getSize()+1];
         
         //Copy array that is increased by 1 at given index from the original array into the new array
@@ -277,9 +252,7 @@ void SmcArray<Element>::copyArrayIncreasedSize(int s){
     //check to see if new size is within the minSize And MaxSize
     //check if the new size is greater than the existing size
     if ((s > this->size) && s < maxSize){
-        
         Element * newArray = new Element[s];
-        
         //Copy everything from the original array into the new array
         for (int i = 0; i < this->size; i++){
             newArray[i] = this->items[i];
@@ -294,37 +267,6 @@ void SmcArray<Element>::copyArrayIncreasedSize(int s){
         
     }else{
         cerr << "My program is crashing\n"; //Error statement
-        throw "Array out of bounds exception";
-    }
-}
-
-//Copy array into a new array when it is decreased by one item
-template <class Element>
-void SmcArray<Element>::copyArrayDecreasedSizeby1(int s, int index){
-    //Notes:
-    //if ( i != index) --> copy it ... else --> (if it does equal index... keeps going.)
-    //Check to see if new size is within the minSize And MaxSize
-    //check if the new size is greater than the existing size
-    
-    if (this->checkIndexBounds(index)){ //check to see if index is within bounds
-        int * newArray = new int[s];
-        
-        //Copy array that is decreased by 1 at given index from the original array into the new array
-        for (int i = 0; i < s; i++){
-            if(i != index){
-                newArray[i] = this->items[i];
-            }
-        }
-        
-        //Deallocate old memory
-        delete [] this->items;
-        
-        //Copy to new pointer
-        this->items = newArray;  //Copy items to new point for array newArray
-        this->size = s;
-        
-    }else{
-        cerr << __PRETTY_FUNCTION__ << "My program is crashing\n"; //_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
         throw "Array out of bounds exception";
     }
 }
@@ -353,7 +295,7 @@ Element SmcArray<Element>::getDefault(){
 
 //Changes the size of the array
 template <class Element>
-void SmcArray<Element>::changeSize(int newSize){
+void SmcArray<Element>::changeSize(unsigned int newSize){
     //Check to make sure there is a default value
     //if(this->defaultValue == NULL){
     if (/* DISABLES CODE */ (false)) {
@@ -364,7 +306,6 @@ void SmcArray<Element>::changeSize(int newSize){
     if(newSize > minSize && newSize < maxSize){
         
         Element * newArray = new Element[newSize];
-        
         //Copy array that is decreased by 1 at given index from the original array into the new array
         for (int i = 0; i < newSize; i++){
             //if expanding the array  (10 -> 15), check to see if the current position is going to be outside

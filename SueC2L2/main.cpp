@@ -7,37 +7,33 @@
 //
 
 #include <iostream>
-#include <string>
-#include <fstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sstream>
-#include <stdexcept>
-#include <assert.h>
-#include <vector>
-#include <math.h>
 #include "SmcArray.hpp"
 #include "BigInt.hpp"
 
 using namespace std;
-//TODO: Makefile
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "/////////////////////////////////////////////////////////\n";
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "+       Testing Assign                +" << endl;
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-
-    BigInt* myBigInt = new BigInt();
+    //Testing and output of test data
+    cout << "///////////////////////////////////////////////////////////////////\n";
+    cout << "----------------------------------------" << endl;
+    cout << "****************************************" << endl;
+    cout << "* Susan Chang                          *" << endl;
+    cout << "* Assignment 2 - Giant Numbers, Part 1 *" << endl;
+    cout << "* Due February 21, 2015                *" << endl;
+    cout << "****************************************" << endl << endl;
+    cout << "++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+         Testing Assign               +" << endl;
+    cout << "++++++++++++++++++++++++++++++++++++++++" << endl;
+    
+    BigInt myBigInt;
     
     //Testing assign with inputs as integers and string
-    myBigInt->assign(1234);
+    myBigInt.assign(1234);
     cout << "a = ";
-    myBigInt->print();
+    myBigInt.print();
     cout << "b = ";
-    myBigInt->assign("5678");
-    myBigInt->print();
+    myBigInt.assign("5678");
+    myBigInt.print();
     
     cout << "===================" << endl;
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
@@ -46,15 +42,14 @@ int main(int argc, const char * argv[]) {
     BigInt secondBigInt;
     //Compares two numbers where A is greater than B
     secondBigInt.assign(5678);
-    //secondBigInt.print();
     cout << "a = ";
-    myBigInt->print();
+    myBigInt.print();
     cout << "b = ";
-    myBigInt->assign("5678");
-    myBigInt->print();
-    if(myBigInt->compare(secondBigInt) > 0){
+    myBigInt.assign("5678");
+    myBigInt.print();
+    if(myBigInt.compare(secondBigInt) > 0){
         cout << "a is greater than b" << endl;
-    }else if (myBigInt->compare(secondBigInt) < 0){
+    }else if (myBigInt.compare(secondBigInt) < 0){
         cout << "b is greater than a" <<  endl;
     }else{
         cout << "a is Equal to b" << endl;
@@ -63,14 +58,13 @@ int main(int argc, const char * argv[]) {
     
     //Compares two numbers where B is greater than A
     secondBigInt.assign(6789);
-    //secondBigInt.print();
     cout << "a = ";
-    myBigInt->print();
+    myBigInt.print();
     cout << "b = ";
     secondBigInt.print();
-    if(myBigInt->compare(secondBigInt) > 0){
+    if(myBigInt.compare(secondBigInt) > 0){
         cout << "a is greater than b" << endl;
-    }else if (myBigInt->compare(secondBigInt) < 0){
+    }else if (myBigInt.compare(secondBigInt) < 0){
         cout << "b is greater than a" <<  endl;
     }else{
         cout << "a is Equal to b" << endl;
@@ -79,33 +73,31 @@ int main(int argc, const char * argv[]) {
 
     //Compares two numbers where two numbers are equal
     secondBigInt.assign(5199);
-    //secondBigInt.print();
     cout << "a = ";
-    myBigInt->print();
+    myBigInt.print();
     cout << "b = ";
     secondBigInt.print();
-    if(myBigInt->compare(secondBigInt) > 0){
+    if(myBigInt.compare(secondBigInt) > 0){
         cout << "a is greater than b" << endl;
-    }else if (myBigInt->compare(secondBigInt) < 0){
+    }else if (myBigInt.compare(secondBigInt) < 0){
         cout << "b is greater than a" <<  endl;
     }else{
         cout << "a is Equal to b" << endl;
     }
     cout << "==================="<< endl;
     
-    
-    
+
     //Testing adding A + B
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "+       Addition                     +" << endl;
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "a = ";
-    myBigInt->print();
+    myBigInt.print();
     cout << "b = ";
     secondBigInt.print();
-    myBigInt->add(secondBigInt);
+    myBigInt.add(secondBigInt);
     cout << "The result when adding a + b: ";
-    myBigInt->print();
+    myBigInt.print();
     cout << "==================="<< endl;
     
     secondBigInt.assign(5199);
@@ -114,12 +106,12 @@ int main(int argc, const char * argv[]) {
     cout << "|       Subtraction                  |" << endl;
     cout << "--------------------------------------" << endl;
     cout << "a = ";
-    myBigInt->print();
+    myBigInt.print();
     cout << "b = ";
     secondBigInt.print();
-    myBigInt->subtract(secondBigInt);
+    myBigInt.subtract(secondBigInt);
     cout << "The result when subtracting a - b: ";
-    myBigInt->print();
+    myBigInt.print();
     cout << "==================="<< endl;
     
     //Example provided in the assignment

@@ -139,6 +139,33 @@ int main(int argc, const char * argv[]) {
     cout << "==================="<< endl;
     std::cout << "/////////////////////////////////////////////////////////\n";
     
+    
+    //Testing Multiplication for a * b
+    secondBigInt.assign(7);
+    cout << "****************************************" << endl;
+    cout << "*         Multiplication               *" << endl;
+    cout << "****************************************" << endl;
+    cout << "a = ";
+    myBigInt.print();
+    cout << "b = ";
+    secondBigInt.print();
+    myBigInt.multiply(secondBigInt);
+    cout << "The expected result when multiplying a * b: 39746" << endl;
+    cout << "The actual result when multiplying a * b:   ";
+    myBigInt.print();
+    cout << "===================="<< endl;
+    
+    secondBigInt.assign(22);
+    cout << "a = ";
+    myBigInt.print();
+    cout << "b = ";
+    secondBigInt.print();
+    myBigInt.multiply(secondBigInt);
+    cout << "The expected result when multiplying a * b: 874412" << endl;
+    cout << "The actual result when multiplying a * b:   ";
+    myBigInt.print();
+    cout << "===================="<< endl;
+    
     return 0;
 }
 

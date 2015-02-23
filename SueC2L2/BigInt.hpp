@@ -26,6 +26,8 @@ public:
     void print();
     void add(const BigInt & a);
     void subtract(const BigInt & a);
+    void multiply(const BigInt & a);
+    void divide(const BigInt & a);
     int compare(const BigInt & a);
     int getSize() const;
     int convertCharToInt(char c);
@@ -172,6 +174,60 @@ void BigInt::subtract(const BigInt & a){
         }
         i=i;
     }
+}
+
+void BigInt::multiply(const BigInt & a){
+    int maxindex = 0;  //maximum index
+    int multNum = 0;
+    int carry = 0;
+    int index = 0;
+    
+    index = digits.getSize() - 1;
+    maxindex = a.digits.getSize() - 1;
+    
+    cout << " index = " << index << " maxindex = " << maxindex << endl;
+    cout << " a = " << a.digits.getSize()<< endl;
+    
+    for( int j = maxindex; j >= 0;){
+        carry =0;
+        for(int i = index; i >= 0;){
+            cout << " IIIII ==== " << i << endl;
+            cout << " a.digits.getItem(i) = " << digits.getItem(i) << endl;
+            multNum = this->digits.getItem(i) * a.digits.getItem(j) + carry;
+            cout << " Multiplication:  " << multNum << endl;
+            if(multNum >= 10){
+                carry = multNum / 10;
+                multNum = multNum % 10;
+            }else{
+                carry = 0;
+            }
+            //this->digits.setItem(this->digits.getItem(i) + carry, i); // need to do push
+            cout << "digits.getItem(i) " << digits.getItem(i) << endl;
+            cout << "carry " << carry << endl;
+            cout << " multNum " << multNum << endl;
+            cout << " ******" << endl;
+            this->digits.setItem(multNum, i);
+            i=i-1;
+        }
+        j=j-1;
+        //TODO: need to do push back and then add rows
+        if(carry!= 0){ //If there is a carry
+            this->digits.insertItem(carry, 0);
+        }
+    }
+    for(int i = 0; i <= this->digits.getSize()-1;){ //Remove Leading zeros
+        //if the number is not equal to 0 or there is only 1 element left in the array, stop removing zeros
+        if(digits.getItem(i) != 0 || this->digits.getSize() <= 1){
+            return;
+        }else{
+            if(digits.getItem(i) == 0)
+                this->digits.removeItem(i);
+        }
+        i=i;
+    }
+}
+void BigInt::divide(const BigInt & a){
+    
 }
 
 //Comparing two numbers to check if they are >, <, =

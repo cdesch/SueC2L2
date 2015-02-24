@@ -15,7 +15,7 @@ using namespace std;
 const int defaultSize = 10; //default size is 10
 const int minSize = 0; //min size of array is 0
 const int maxSize = 100; //max size of array is 100
-const int kDefaultValue = -1; //default value is set to -1
+const int kDefaultValue = 0; //default value is set to -1
 
 //Reference: http://www.cplusplus.com/forum/windows/88843/
 //String Sample Context
@@ -91,7 +91,7 @@ SmcArray<Element>::SmcArray(int s){
 //Deletes the items in array
 template <class Element>
 SmcArray<Element>::~SmcArray(){
-    delete [] this->items;
+    //delete [] this->items;
 }
 
 //Allocates an array of given size
@@ -185,7 +185,7 @@ void SmcArray<Element>::insertItem(Element value, int index){
     //update the size by adding 1 and inserts the value into the array
     
     //Checks that within bounds
-    if (minSize <= index &&  index < this->getSize() ){
+    if (minSize <= index &&  index <= this->getSize() ){
         Element * newArray = new Element[this->getSize()+1];
         
         //Copy array that is increased by 1 at given index from the original array into the new array

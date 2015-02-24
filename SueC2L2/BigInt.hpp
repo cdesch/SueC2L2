@@ -10,6 +10,8 @@
 #define SueC2L2_BigInt_h
 
 #include "SmcArray.hpp"
+#include <vector>
+
 
 const int kDefaultBigIntSize = 10;
 
@@ -30,6 +32,7 @@ public:
     void divide(const BigInt & a);
     int compare(const BigInt & a);
     int getSize() const;
+    void setDigits(SmcArray<int> a);
     int convertCharToInt(char c);
     void removeLeadingZeros(const BigInt & a);
 };
@@ -101,6 +104,18 @@ void BigInt::add(const BigInt & a){
     index = this->digits.getSize()-1;
     newIndex = abs(this->digits.getSize() - a.digits.getSize());
     
+    //Check if equal to 0
+    if(this->digits.getSize() == 1 || a.digits.getSize() == 1){
+        
+        if(this->digits.getItem(0) == 0){
+            //this->digits = a.digits;
+            return;
+        }else if(a.digits.getItem(0) == 0){
+            return;
+        }
+        
+    }
+    
     //Determines the size of loop if a.digits is less than digits then index is one less than a.digits
     if(this->digits.getSize() < a.digits.getSize()){
         this->digits.changeSize(a.digits.getSize()); //Change digits to be the size of the larger number, which happens to be 'a'
@@ -121,7 +136,7 @@ void BigInt::add(const BigInt & a){
         }
         //Determines the size of loop if a.digits is greater than digits
     }else if(this->digits.getSize() >= a.digits.getSize()){
-        index = digits.getSize()-1;
+        index = this->digits.getSize()-1;
         for(int i = index; i >= newIndex; i--){
             sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
             if(sumNum >= 10){
@@ -177,22 +192,35 @@ void BigInt::subtract(const BigInt & a){
 }
 
 void BigInt::multiply(const BigInt & a){
-    int maxindex = 0;  //maximum index
+    
+
     int multNum = 0;
     int carry = 0;
-    int index = 0;
+    int zeroIndex = 0;
     
-    index = digits.getSize() - 1;
-    maxindex = a.digits.getSize() - 1;
     
-    cout << " index = " << index << " maxindex = " << maxindex << endl;
-    cout << " a = " << a.digits.getSize()<< endl;
+    cout << " index = " << this->digits.getSize() - 1 << " maxindex = " << a.digits.getSize() - 1 << endl;
+    cout << " a size = " << a.digits.getSize()<< endl;
     
-    for( int j = maxindex; j >= 0;){
-        carry =0;
-        for(int i = index; i >= 0;){
+    vector <BigInt> middleStepNumbers;
+    
+    for( int j = a.digits.getSize() - 1 ; j >= 0; j--){
+        
+        //Middle Line
+        //SmcArray<int> middleLine;
+        SmcArray<int> middleLine(0);
+        //middleLine.setItem(0, 0);
+        
+        for(int z = 0; z < zeroIndex; z++){
+            middleLine.pushItem(0);
+        }
+        
+        carry = 0;
+        for(int i = this->digits.getSize() - 1; i >= 0; i--){
+            
             cout << " IIIII ==== " << i << endl;
-            cout << " a.digits.getItem(i) = " << digits.getItem(i) << endl;
+            cout << " a.digits.getItem(j) = " << a.digits.getItem(j) << endl;
+            cout << " this->digits.getItem(i) = " << this->digits.getItem(i) << endl;
             multNum = this->digits.getItem(i) * a.digits.getItem(j) + carry;
             cout << " Multiplication:  " << multNum << endl;
             if(multNum >= 10){
@@ -201,20 +229,53 @@ void BigInt::multiply(const BigInt & a){
             }else{
                 carry = 0;
             }
-            //this->digits.setItem(this->digits.getItem(i) + carry, i); // need to do push
-            cout << "digits.getItem(i) " << digits.getItem(i) << endl;
+        
+
             cout << "carry " << carry << endl;
             cout << " multNum " << multNum << endl;
             cout << " ******" << endl;
-            this->digits.setItem(multNum, i);
-            i=i-1;
+            middleLine.insertItem(multNum, 0);
+//            this->digits.setItem(multNum, i);
+            cout << "middleLine: " << endl;
+            middleLine.printArray(true);
+
         }
-        j=j-1;
+
         //TODO: need to do push back and then add rows
         if(carry!= 0){ //If there is a carry
-            this->digits.insertItem(carry, 0);
+            middleLine.insertItem(carry, 0);
+            //this->digits.insertItem(carry, 0);
         }
+        zeroIndex++;
+        middleLine.printArray(true);
+
+        
+        BigInt myMiddleLine;
+        myMiddleLine.setDigits(middleLine);
+        middleStepNumbers.push_back(myMiddleLine);
+
+        
+
+        
+        
     }
+
+    BigInt result;
+    result.assign(0);
+    result.print();
+    
+    for(int i = 0; i< middleStepNumbers.size(); i++ ){
+        middleStepNumbers[i].print();
+        BigInt myInt = middleStepNumbers[i];
+        myInt.print();
+        
+        result.add(myInt);
+    }
+    cout << "Myresult: " << endl;
+    result.print();
+    this->assign(result);
+    
+    //FIXME: Code duplication
     for(int i = 0; i <= this->digits.getSize()-1;){ //Remove Leading zeros
         //if the number is not equal to 0 or there is only 1 element left in the array, stop removing zeros
         if(digits.getItem(i) != 0 || this->digits.getSize() <= 1){
@@ -256,6 +317,10 @@ int BigInt::compare(const BigInt & a){
 //Gets the size of an array
 int BigInt::getSize() const{
     return this->digits.getSize();
+}
+
+void BigInt::setDigits(SmcArray<int> a){
+    this->digits = a;
 }
 
 //Simple char to int converter via ASCII indexs

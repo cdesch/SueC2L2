@@ -100,6 +100,21 @@ int main(int argc, const char * argv[]) {
     myBigInt.print();
     cout << "==================="<< endl;
     
+    
+    //Testing adding A + B
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+       Addition                     +" << endl;
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "a = ";
+    myBigInt.assign(0);
+    myBigInt.print();
+    cout << "b = ";
+    secondBigInt.print();
+    myBigInt.add(secondBigInt);
+    cout << "The result when adding a + b: ";
+    myBigInt.print();
+    cout << "==================="<< endl;
+    
     secondBigInt.assign(5199);
     //Testing subtraction for A - B
     cout << "--------------------------------------" << endl;
@@ -153,8 +168,12 @@ int main(int argc, const char * argv[]) {
     cout << "The expected result when multiplying a * b: 39746" << endl;
     cout << "The actual result when multiplying a * b:   ";
     myBigInt.print();
+    /*
     cout << "===================="<< endl;
-    
+    cout << "****************************************" << endl;
+    cout << "*         Multiplication               *" << endl;
+    cout << "****************************************" << endl;
+
     secondBigInt.assign(22);
     cout << "a = ";
     myBigInt.print();
@@ -165,7 +184,7 @@ int main(int argc, const char * argv[]) {
     cout << "The actual result when multiplying a * b:   ";
     myBigInt.print();
     cout << "===================="<< endl;
-    
+    */
     return 0;
 }
 

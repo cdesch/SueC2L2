@@ -13,7 +13,7 @@
 #include <vector>
 
 
-const int kDefaultBigIntSize = 10;
+//const int kDefaultBigIntSize = 10;
 
 class BigInt{
 protected:
@@ -40,7 +40,7 @@ public:
 //Constructor
 BigInt::BigInt(){
     //Initialize an array object
-    this->digits.setItem(1, 0); //intialize with 0
+    this->digits.setItem(0, 0); //intialize with 0
 }
 //Constructor
 BigInt::~BigInt(){
@@ -108,7 +108,7 @@ void BigInt::add(const BigInt & a){
     if(this->digits.getSize() == 1 || a.digits.getSize() == 1){
         
         if(this->digits.getItem(0) == 0){
-            //this->digits = a.digits;
+            this->assign(a);
             return;
         }else if(a.digits.getItem(0) == 0){
             return;

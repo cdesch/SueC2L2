@@ -12,7 +12,140 @@
 
 using namespace std;
 
+void testAddition(){
+    
+    
+    BigInt myBigInt;
+    BigInt secondBigInt;
+    secondBigInt.assign(4321);
+    //Testing assign with inputs as integers and string
+    myBigInt.assign(1234);
+    cout << "a = ";
+    myBigInt.print();
+    cout << "b = ";
+    myBigInt.assign("5678");
+    myBigInt.print();
+    
+    //Testing adding A + B
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+       Addition                     +" << endl;
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "a = ";
+    myBigInt.print();
+    cout << "b = ";
+    secondBigInt.print();
+    myBigInt.add(secondBigInt);
+    cout << "The result when adding a + b: ";
+    myBigInt.print();
+    cout << "==================="<< endl;
+    
+    secondBigInt.assign(1234);
+    //Testing adding A + B
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+       Addition                     +" << endl;
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "a = ";
+    myBigInt.assign(0);
+    myBigInt.print();
+    cout << "b = ";
+    secondBigInt.print();
+    myBigInt.add(secondBigInt);
+    cout << "The result when adding a + b: ";
+    myBigInt.print();
+    cout << "==================="<< endl;
+    
+    secondBigInt.assign(0);
+    //Testing adding A + B
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+       Addition                     +" << endl;
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "a = ";
+    myBigInt.assign(1234);
+    myBigInt.print();
+    cout << "b = ";
+    secondBigInt.print();
+    myBigInt.add(secondBigInt);
+    cout << "The result when adding a + b: ";
+    myBigInt.print();
+    cout << "==================="<< endl;
+    
+    //Example provided in the assignment
+    BigInt a, b, c;
+    cout << "--------------------------------------" << endl;
+    cout << "|      Example in Assignment         |" << endl;
+    cout << "--------------------------------------" << endl;
+    a.assign("123456789012345678901234567890");
+    cout << "a = ";
+    a.print();
+    cout << "b = ";
+    b.assign("111222333444555666777888999000");
+    b.print();
+    cout << "c = ";
+    c.assign(696969);        // 69 is small enough to be an int.
+    c.print();
+    cout << endl;
+    cout << "a + b =    ";// a + b = 234679122456901345679123566890
+    a.add(b);                // a += b;
+    a.print();
+    
+    cout << "a + b - c: "; // 234679122456901345679122869921
+    a.subtract(c);           // a -= b;
+    a.print();
+    cout << "==================="<< endl;
+    std::cout << "/////////////////////////////////////////////////////////\n";
+
+
+}
+
+void testMultiply(){
+    BigInt myBigInt;
+    BigInt secondBigInt;
+    secondBigInt.assign(7);
+    //Testing assign with inputs as integers and string
+    myBigInt.assign(5678);
+    //Testing Multiplication for a * b
+
+    cout << "****************************************" << endl;
+    cout << "*         Multiplication               *" << endl;
+    cout << "****************************************" << endl;
+    cout << "a = ";
+    myBigInt.print();
+    cout << "b = ";
+    secondBigInt.print();
+    myBigInt.multiply(secondBigInt);
+    cout << "The expected result when multiplying a * b: 39746" << endl;
+    cout << "The actual result when multiplying a * b:   ";
+    myBigInt.print();
+    
+
+    
+
+     cout << "===================="<< endl;
+     cout << "****************************************" << endl;
+     cout << "*         Multiplication               *" << endl;
+     cout << "****************************************" << endl;
+     
+     secondBigInt.assign(22);
+     cout << "a = ";
+     myBigInt.print();
+     cout << "b = ";
+     secondBigInt.print();
+     myBigInt.multiply(secondBigInt);
+     cout << "The expected result when multiplying a * b: 874412" << endl;
+     cout << "The actual result when multiplying a * b:   ";
+     myBigInt.print();
+     cout << "===================="<< endl;
+     
+
+    
+}
+
 int main(int argc, const char * argv[]) {
+    
+    //testAddition();
+    testMultiply();
+    
+    /*
     //Testing and output of test data
     cout << "///////////////////////////////////////////////////////////////////\n";
     cout << "----------------------------------------" << endl;
@@ -168,6 +301,9 @@ int main(int argc, const char * argv[]) {
     cout << "The expected result when multiplying a * b: 39746" << endl;
     cout << "The actual result when multiplying a * b:   ";
     myBigInt.print();
+     
+     */
+    
     /*
     cout << "===================="<< endl;
     cout << "****************************************" << endl;

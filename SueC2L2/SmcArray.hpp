@@ -153,7 +153,7 @@ Element SmcArray<Element>::getItem(int index){
         
     }else{
         //Even though this will return the default value the user is prompted with a message indicating that a default value has been returned
-        cerr << __PRETTY_FUNCTION__ << "- WARNING: Returning Default Value\n ";//_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
+        //cerr << __PRETTY_FUNCTION__ << "- WARNING: Returning Default Value\n ";//_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
         
         return this->defaultValue; //returns the default value
     }
@@ -170,7 +170,7 @@ Element SmcArray<Element>::getItem(int index) const{
         
     }else{
         //Even though this will return the default value the user is prompted with a message indicating that a default value has been returned
-        cerr << __PRETTY_FUNCTION__ << "- WARNING: Returning Default Value\n ";//_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
+        //cerr << __PRETTY_FUNCTION__ << "- WARNING: Returning Default Value\n ";//_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
         
         return this->defaultValue; //returns the default value
     }

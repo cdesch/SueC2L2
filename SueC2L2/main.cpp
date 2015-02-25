@@ -44,6 +44,13 @@ void testAddition(){
     testAdditionCase(1234, 0);
     testAdditionCase(79492, 794920);
     testAdditionCase(794920, 79492);
+    testAdditionCase(7940, 792123122);
+    testAdditionCase(792123122, 7940);
+    testAdditionCase(1, 2222);
+    testAdditionCase(2222,1);
+    
+
+    
     
     //Example provided in the assignment
     BigInt a, b, c;

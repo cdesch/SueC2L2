@@ -18,6 +18,7 @@
 class BigInt{
 protected:
     SmcArray<int> digits;
+    SmcArray<int> additionHelper(SmcArray<int> a, SmcArray<int> b);
     
 public:
     BigInt();                        // initialise to zero.
@@ -112,7 +113,7 @@ void BigInt::add(const BigInt & a){
             return;
         }
     }
-    
+    newIndex = abs(this->digits.getSize() - a.digits.getSize());
     //Determines the size of loop if a.digits is less than digits then index is one less than a.digits
     if(this->digits.getSize() < a.digits.getSize()){
         this->digits.changeSize(a.digits.getSize()); //Change digits to be the size of the larger number, which happens to be 'a'
@@ -120,13 +121,17 @@ void BigInt::add(const BigInt & a){
     }else{
         index = this->digits.getSize() - 1;
     }
-    newIndex = abs(this->digits.getSize() - a.digits.getSize());
-    cout << "index: " << index << endl;
-    cout << "newIndex " << newIndex << endl;
+    
+    //cout << "index: " << index << endl;
+    //cout << "newIndex " << newIndex << endl;
     int i;
-    for(i = index; i >= newIndex; i--){
-        sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
-//        cout << "sumNum : " << sumNum << endl;
+    for(i = index; i >= 0; i--){
+        if(this->digits.getSize() < a.digits.getSize()){
+            sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
+        }else{
+            sumNum = this->digits.getItem(i-newIndex) + a.digits.getItem(i) + carry;
+        }
+        
         if(sumNum >= 10){
             carry = sumNum / 10;
             sumNum = sumNum % 10;
@@ -134,19 +139,22 @@ void BigInt::add(const BigInt & a){
             carry = 0;
         }
         
-        cout << "Set: " << sumNum << " at index: " << i << endl;
+        //cout << "Set: " << sumNum << " at index: " << i << endl;
         this->digits.setItem(sumNum, i);
         
     }
     //If there is a carry
-    if(carry != 0 && i != 0){
-        int firstDigit = this->digits.getItem(i);
-        firstDigit++;
-        cout << "here" << endl;
-         this->digits.setItem(firstDigit, i);
-        //        this->digits.insertItem(carry, 0);
+    if(carry!= 0){
+
+        this->digits.setItem(this->digits.getItem(newIndex-1)+1, newIndex-1);
+            //this->digits.insertItem(carry, );
     }
  
+}
+
+SmcArray<int> BigInt::additionHelper(SmcArray<int> a, SmcArray<int> b){
+    
+    return a;
 }
 
 //Subtracting two integers, results must be positive.

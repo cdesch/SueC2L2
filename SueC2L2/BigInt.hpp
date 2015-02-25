@@ -122,10 +122,10 @@ void BigInt::add(const BigInt & a){
         index = this->digits.getSize() - 1;
     }
     
-    //cout << "index: " << index << endl;
-    //cout << "newIndex " << newIndex << endl;
+    cout << "index: " << index << endl;
+    cout << "newIndex " << newIndex << endl;
     int i;
-    for(i = index; i >= 0; i--){
+    for(i = index; i >= newIndex; i--){
         if(this->digits.getSize() < a.digits.getSize()){
             sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
         }else{
@@ -133,18 +133,18 @@ void BigInt::add(const BigInt & a){
         }
         
         if(sumNum >= 10){
-            carry = sumNum / 10;
-            sumNum = sumNum % 10;
+            carry = (sumNum/10) % 10;
+            sumNum= sumNum-10;
         }else{
             carry = 0;
         }
         
-        //cout << "Set: " << sumNum << " at index: " << i << endl;
+        cout << "Set: " << sumNum << " at index: " << i << endl;
         this->digits.setItem(sumNum, i);
         
     }
     //If there is a carry
-    if(carry!= 0){
+    if(carry == 1){
 
         this->digits.setItem(this->digits.getItem(newIndex-1)+1, newIndex-1);
             //this->digits.insertItem(carry, );

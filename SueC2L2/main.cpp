@@ -22,7 +22,9 @@ void testAdditionCase(int numA, int numB){
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "a = " << numA << " b = " << numB << endl;
     myBigInt.assign(numA);
+    myBigInt.print();
     secondBigInt.assign(numB);
+    secondBigInt.print();
     myBigInt.add(secondBigInt);
     cout << "The expected result when adding a + b : " << numA + numB << endl;
     cout << "The actual result when adding a + b   : ";

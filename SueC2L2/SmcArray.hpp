@@ -51,7 +51,7 @@ public:
     Element getItem(int index) const; //retrieves an item at a given index w/const
     void insertItem(Element value, int index); //inserts an item at a given index
     void removeItem(int index); // Delete array item
-    void printArray(bool linear); // Print Array
+    void printArray(bool linear) const; // Print Array
     void setDefault(Element value); //Sets a default value for out of bounds index expansions via changeSize
     Element getDefault(); //Returns the default value
     void changeSize(unsigned int newSize); //Changes the array size
@@ -187,7 +187,7 @@ void SmcArray<Element>::insertItem(Element value, int index){
         Element * newArray = new Element[this->getSize()+1];
         
         //Copy array that is increased by 1 at given index from the original array into the new array
-        if (index < 0 || index >= this->size+1)
+        if (index < 0 || index >= this->getSize()+1)
             cout << "The index of the item to be removed is out of range." << endl;
         else{
             //sets the values in array before the inserted value
@@ -228,7 +228,7 @@ void SmcArray<Element>::removeItem(int index){
 
 //Prints the array
 template <class Element>
-void SmcArray<Element>::printArray(bool linear){
+void SmcArray<Element>::printArray(bool linear) const{
     
     if(linear){
         for (int i=0; i < this->size; i++){

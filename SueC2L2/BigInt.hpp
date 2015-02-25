@@ -26,7 +26,7 @@ public:
     void assign(const BigInt & a);
     void assign(int a);              // various ways to initialise
     void assign(string a);
-    void print();
+    void print() const;
     void add(const BigInt & a);
     void subtract(const BigInt & a);
     void multiply(const BigInt & a);
@@ -76,6 +76,7 @@ void BigInt::assign(int a){
     }
 }
 
+
 //Take a string and split into digits
 void BigInt::assign(string a){
     //1) Loop through each character in string
@@ -90,7 +91,7 @@ void BigInt::assign(string a){
 }
 
 //Print bigInt
-void BigInt::print(){
+void BigInt::print() const{
     for (int i  = 0; i < this->digits.getSize() ; i++){
         cout << this->digits.getItem(i);
     }
@@ -100,10 +101,7 @@ void BigInt::print(){
 //Adding two large integers that have been split into an array of large digits
 void BigInt::add(const BigInt & a){
     int carry = 0;
-    int newIndex, index;
     int sumNum = 0;
-
-    
     //Check if equal to 0
     if(this->digits.getSize() == 1 || a.digits.getSize() == 1){
         if(this->digits.getItem(0) == 0){
@@ -113,23 +111,24 @@ void BigInt::add(const BigInt & a){
             return;
         }
     }
-    newIndex = abs(this->digits.getSize() - a.digits.getSize());
+    int indexDifference = abs(this->digits.getSize() - a.digits.getSize());
+    int indexSpread = this->digits.getSize() - a.digits.getSize();
+    
     //Determines the size of loop if a.digits is less than digits then index is one less than a.digits
     if(this->digits.getSize() < a.digits.getSize()){
-        this->digits.changeSize(a.digits.getSize()); //Change digits to be the size of the larger number, which happens to be 'a'
-        index = a.digits.getSize() - 1;
-    }else{
-        index = this->digits.getSize() - 1;
+        //Insert leading 0's to change the size of this->digits
+        for (int k = 0; k < indexDifference; k++){
+            this->digits.insertItem(0, 0);
+        }
     }
     
-    cout << "index: " << index << endl;
-    cout << "newIndex " << newIndex << endl;
-    int i;
-    for(i = index; i >= newIndex; i--){
-        if(this->digits.getSize() < a.digits.getSize()){
-            sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
+    int startingIndex = this->digits.getSize() - 1;
+
+    for(int i = startingIndex; i >= indexDifference; i--){
+        if(this->digits.getSize() > a.digits.getSize()){
+            sumNum = this->digits.getItem(i) + a.digits.getItem(i-indexDifference) + carry;
         }else{
-            sumNum = this->digits.getItem(i-newIndex) + a.digits.getItem(i) + carry;
+            sumNum = this->digits.getItem(i) + a.digits.getItem(i) + carry;
         }
         
         if(sumNum >= 10){
@@ -139,15 +138,21 @@ void BigInt::add(const BigInt & a){
             carry = 0;
         }
         
-        cout << "Set: " << sumNum << " at index: " << i << endl;
+        //cout << "Set: " << sumNum << " at index: " << i << endl;
         this->digits.setItem(sumNum, i);
         
     }
+    
+    //if A was the larger, copy the rest of the items down into the this->digits
+    if(indexSpread < 0){
+        for (int k = indexDifference -1; k >= 0; k--){
+            this->digits.setItem(a.digits.getItem(k), k);
+        }
+    }
+
     //If there is a carry
     if(carry == 1){
-
-        this->digits.setItem(this->digits.getItem(newIndex-1)+1, newIndex-1);
-            //this->digits.insertItem(carry, );
+        this->digits.setItem(this->digits.getItem(indexDifference-1)+1, indexDifference-1);
     }
  
 }

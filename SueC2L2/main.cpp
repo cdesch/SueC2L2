@@ -22,9 +22,7 @@ void testAdditionCase(int numA, int numB){
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "a = " << numA << " b = " << numB << endl;
     myBigInt.assign(numA);
-    myBigInt.print();
     secondBigInt.assign(numB);
-    secondBigInt.print();
     myBigInt.add(secondBigInt);
     cout << "The expected result when adding a + b : " << numA + numB << endl;
     cout << "The actual result when adding a + b   : ";
@@ -39,25 +37,37 @@ void testAdditionCase(int numA, int numB){
     }
 }
 
-void testAddition(){
+void testMultiplicationCase(int numA, int numB){
+    BigInt myBigInt;
+    BigInt secondBigInt;
     
-    
-    testAdditionCase(0, 1234);
-    testAdditionCase(1234, 0);
-    testAdditionCase(79492, 794920);
-    testAdditionCase(794920, 79492);
-    testAdditionCase(7940, 792123122);
-    testAdditionCase(792123122, 7940);
-    testAdditionCase(1, 2222);
-    testAdditionCase(2222,1);
-    
+    //Testing adding A + B
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+       Multiplication               +" << endl;
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "a = " << numA << " b = " << numB << endl;
+    myBigInt.assign(numA);
+    secondBigInt.assign(numB);
+    myBigInt.multiply(secondBigInt);
+    cout << "The expected result when adding a * b : " << numA * numB << endl;
+    cout << "The actual result when adding a * b   : ";
+    myBigInt.print();
+    //FIXME: Overload Compare function on BigInt
+    BigInt result;
+    result.assign(numA * numB);
+    if(myBigInt.compare(result) == 0){
+        cout << "                             *****TEST PASSED******" << endl;
+    }else{
+        cout << "                             **===TEST FAILED===***" << endl;
+    }
+}
 
-    
-    
+void testScenarioOne(){
     //Example provided in the assignment
     BigInt a, b, c;
     cout << "--------------------------------------" << endl;
     cout << "|      Example in Assignment         |" << endl;
+    cout << "|        Test Scenario One           |" << endl;
     cout << "--------------------------------------" << endl;
     a.assign("123456789012345678901234567890");
     cout << "a = ";
@@ -78,51 +88,38 @@ void testAddition(){
     a.print();
     cout << "==================="<< endl;
     std::cout << "/////////////////////////////////////////////////////////\n";
+}
+
+void testAddition(){
+    
+    
+    testAdditionCase(0, 1234);
+    testAdditionCase(1234, 0);
+    testAdditionCase(79492, 794920);
+    testAdditionCase(794920, 79492);
+    testAdditionCase(7940, 792123122);
+    testAdditionCase(792123122, 7940);
+    testAdditionCase(1, 2222);
+    testAdditionCase(2222,1);
+    testAdditionCase(12, 2222);
+    testAdditionCase(2222,12);
+    testAdditionCase(2222, 2222);
 
 
 }
 
+
 void testMultiply(){
-    BigInt myBigInt;
-    BigInt secondBigInt;
-    secondBigInt.assign(7);
-    //Testing assign with inputs as integers and string
-    myBigInt.assign(5678);
-    //Testing Multiplication for a * b
-
     
-    /*
-    cout << "****************************************" << endl;
-    cout << "*         Multiplication               *" << endl;
-    cout << "****************************************" << endl;
-    cout << "a = ";
-    myBigInt.print();
-    cout << "b = ";
-    secondBigInt.print();
-    myBigInt.multiply(secondBigInt);
-    cout << "The expected result when multiplying a * b: 39746" << endl;
-    cout << "The actual result when multiplying a * b:   ";
-    myBigInt.print();
-    */
-
-    myBigInt.assign(39746);
-
-     cout << "===================="<< endl;
-     cout << "****************************************" << endl;
-     cout << "*         Multiplication               *" << endl;
-     cout << "****************************************" << endl;
-     
-     secondBigInt.assign(22);
-     cout << "a = ";
-     myBigInt.print();
-     cout << "b = ";
-     secondBigInt.print();
-     myBigInt.multiply(secondBigInt);
-     cout << "The expected result when multiplying a * b: 874412" << endl;
-     cout << "The actual result when multiplying a * b:   ";
-     myBigInt.print();
-     cout << "===================="<< endl;
-     
+    testMultiplicationCase(7, 5678);
+    testMultiplicationCase(5678, 7);
+    testMultiplicationCase(39746, 22);
+    testMultiplicationCase(22, 39746);
+    testMultiplicationCase(0, 39746);
+    testMultiplicationCase(39746,0);
+    testMultiplicationCase(1, 39746);
+    testMultiplicationCase( 39746, 1);
+    
 
     
 }
@@ -130,7 +127,7 @@ void testMultiply(){
 int main(int argc, const char * argv[]) {
     
     testAddition();
-    //testMultiply();
+    testMultiply();
     
     /*
     //Testing and output of test data

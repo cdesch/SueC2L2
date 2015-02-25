@@ -12,62 +12,38 @@
 
 using namespace std;
 
+void testAdditionCase(int numA, int numB){
+    BigInt myBigInt;
+    BigInt secondBigInt;
+    
+    //Testing adding A + B
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+       Addition                     +" << endl;
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "a = " << numA << " b = " << numB << endl;
+    myBigInt.assign(numA);
+    secondBigInt.assign(numB);
+    myBigInt.add(secondBigInt);
+    cout << "The expected result when adding a + b : " << numA + numB << endl;
+    cout << "The actual result when adding a + b   : ";
+    myBigInt.print();
+    //FIXME: Overload Compare function on BigInt
+    BigInt result;
+    result.assign(numA + numB);
+    if(myBigInt.compare(result) == 0){
+        cout << "                             *****TEST PASSED******" << endl;
+    }else{
+        cout << "                             **===TEST FAILED===***" << endl;
+    }
+}
+
 void testAddition(){
     
     
-    BigInt myBigInt;
-    BigInt secondBigInt;
-    secondBigInt.assign(4321);
-    //Testing assign with inputs as integers and string
-    myBigInt.assign(1234);
-    cout << "a = ";
-    myBigInt.print();
-    cout << "b = ";
-    myBigInt.assign("5678");
-    myBigInt.print();
-    
-    //Testing adding A + B
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "+       Addition                     +" << endl;
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "a = ";
-    myBigInt.print();
-    cout << "b = ";
-    secondBigInt.print();
-    myBigInt.add(secondBigInt);
-    cout << "The result when adding a + b: ";
-    myBigInt.print();
-    cout << "==================="<< endl;
-    
-    secondBigInt.assign(1234);
-    //Testing adding A + B
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "+       Addition                     +" << endl;
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "a = ";
-    myBigInt.assign(0);
-    myBigInt.print();
-    cout << "b = ";
-    secondBigInt.print();
-    myBigInt.add(secondBigInt);
-    cout << "The result when adding a + b: ";
-    myBigInt.print();
-    cout << "==================="<< endl;
-    
-    secondBigInt.assign(0);
-    //Testing adding A + B
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "+       Addition                     +" << endl;
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "a = ";
-    myBigInt.assign(1234);
-    myBigInt.print();
-    cout << "b = ";
-    secondBigInt.print();
-    myBigInt.add(secondBigInt);
-    cout << "The result when adding a + b: ";
-    myBigInt.print();
-    cout << "==================="<< endl;
+    testAdditionCase(0, 1234);
+    testAdditionCase(1234, 0);
+    testAdditionCase(79492, 794920);
+    testAdditionCase(794920, 79492);
     
     //Example provided in the assignment
     BigInt a, b, c;
@@ -105,6 +81,8 @@ void testMultiply(){
     myBigInt.assign(5678);
     //Testing Multiplication for a * b
 
+    
+    /*
     cout << "****************************************" << endl;
     cout << "*         Multiplication               *" << endl;
     cout << "****************************************" << endl;
@@ -116,9 +94,9 @@ void testMultiply(){
     cout << "The expected result when multiplying a * b: 39746" << endl;
     cout << "The actual result when multiplying a * b:   ";
     myBigInt.print();
-    
+    */
 
-    
+    myBigInt.assign(39746);
 
      cout << "===================="<< endl;
      cout << "****************************************" << endl;
@@ -142,8 +120,8 @@ void testMultiply(){
 
 int main(int argc, const char * argv[]) {
     
-    //testAddition();
-    testMultiply();
+    testAddition();
+    //testMultiply();
     
     /*
     //Testing and output of test data

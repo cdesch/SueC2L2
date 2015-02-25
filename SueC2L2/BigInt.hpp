@@ -191,13 +191,12 @@ void BigInt::subtract(const BigInt & a){
     }
 }
 
+//TODO: Some awesome comments
 void BigInt::multiply(const BigInt & a){
     
-
     int multNum = 0;
     int carry = 0;
     int zeroIndex = 0;
-    
     
     cout << " index = " << this->digits.getSize() - 1 << " maxindex = " << a.digits.getSize() - 1 << endl;
     cout << " a size = " << a.digits.getSize()<< endl;
@@ -218,60 +217,50 @@ void BigInt::multiply(const BigInt & a){
         carry = 0;
         for(int i = this->digits.getSize() - 1; i >= 0; i--){
             
-            cout << " IIIII ==== " << i << endl;
+            //cout << " IIIII ==== " << i << endl;
             cout << " a.digits.getItem(j) = " << a.digits.getItem(j) << endl;
             cout << " this->digits.getItem(i) = " << this->digits.getItem(i) << endl;
             multNum = this->digits.getItem(i) * a.digits.getItem(j) + carry;
-            cout << " Multiplication:  " << multNum << endl;
+            cout << " multNum:  " << multNum << endl;
             if(multNum >= 10){
                 carry = multNum / 10;
                 multNum = multNum % 10;
             }else{
                 carry = 0;
             }
-        
-
-            cout << "carry " << carry << endl;
-            cout << " multNum " << multNum << endl;
-            cout << " ******" << endl;
+            cout << " carry: " << carry << "+ multnum: " << multNum << endl;
             middleLine.insertItem(multNum, 0);
-//            this->digits.setItem(multNum, i);
-            cout << "middleLine: " << endl;
-            middleLine.printArray(true);
+         //   middleLine.printArray(true);
 
         }
 
         //TODO: need to do push back and then add rows
         if(carry!= 0){ //If there is a carry
             middleLine.insertItem(carry, 0);
-            //this->digits.insertItem(carry, 0);
         }
         zeroIndex++;
+        cout << "middleLine: " ;
         middleLine.printArray(true);
 
         
         BigInt myMiddleLine;
         myMiddleLine.setDigits(middleLine);
         middleStepNumbers.push_back(myMiddleLine);
-
-        
-
-        
-        
     }
 
     BigInt result;
     result.assign(0);
-    result.print();
     
     for(int i = 0; i< middleStepNumbers.size(); i++ ){
+        cout << "middle Step num: ";
         middleStepNumbers[i].print();
         BigInt myInt = middleStepNumbers[i];
+        cout << "middle step bignum: " ;
         myInt.print();
         
         result.add(myInt);
     }
-    cout << "Myresult: " << endl;
+    cout << "Myresult: " ;
     result.print();
     this->assign(result);
     

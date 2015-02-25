@@ -101,57 +101,52 @@ void BigInt::add(const BigInt & a){
     int carry = 0;
     int newIndex, index;
     int sumNum = 0;
-    index = this->digits.getSize()-1;
-    newIndex = abs(this->digits.getSize() - a.digits.getSize());
+
     
     //Check if equal to 0
     if(this->digits.getSize() == 1 || a.digits.getSize() == 1){
-        
         if(this->digits.getItem(0) == 0){
             this->assign(a);
             return;
         }else if(a.digits.getItem(0) == 0){
             return;
         }
-        
     }
     
     //Determines the size of loop if a.digits is less than digits then index is one less than a.digits
     if(this->digits.getSize() < a.digits.getSize()){
         this->digits.changeSize(a.digits.getSize()); //Change digits to be the size of the larger number, which happens to be 'a'
-        index = a.digits.getSize()-1;
-        for(int i = index; i >= newIndex; i--){
-            sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
-            if(sumNum >= 10){
-                carry = sumNum / 10;
-                sumNum = sumNum % 10;
-            }else{
-                carry = 0;
-            }
-            this->digits.setItem(sumNum, i);
-        }
-        //If there is a carry
-        if(carry!= 0){
-            this->digits.insertItem(carry, 0);
-        }
-        //Determines the size of loop if a.digits is greater than digits
-    }else if(this->digits.getSize() >= a.digits.getSize()){
-        index = this->digits.getSize()-1;
-        for(int i = index; i >= newIndex; i--){
-            sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
-            if(sumNum >= 10){
-                carry = sumNum / 10;
-                sumNum = sumNum % 10;
-            }else{
-                carry = 0;
-            }
-            this->digits.setItem(sumNum, i);
-        }
-        //If there is a carry
-        if(carry!= 0){
-            this->digits.insertItem(carry, 0);
-        }
+        index = a.digits.getSize() - 1;
+    }else{
+        index = this->digits.getSize() - 1;
     }
+    newIndex = abs(this->digits.getSize() - a.digits.getSize());
+    cout << "index: " << index << endl;
+    cout << "newIndex " << newIndex << endl;
+    int i;
+    for(i = index; i >= newIndex; i--){
+        sumNum = this->digits.getItem(i) + a.digits.getItem(i-newIndex) + carry;
+//        cout << "sumNum : " << sumNum << endl;
+        if(sumNum >= 10){
+            carry = sumNum / 10;
+            sumNum = sumNum % 10;
+        }else{
+            carry = 0;
+        }
+        
+        cout << "Set: " << sumNum << " at index: " << i << endl;
+        this->digits.setItem(sumNum, i);
+        
+    }
+    //If there is a carry
+    if(carry != 0 && i != 0){
+        int firstDigit = this->digits.getItem(i);
+        firstDigit++;
+        cout << "here" << endl;
+         this->digits.setItem(firstDigit, i);
+        //        this->digits.insertItem(carry, 0);
+    }
+ 
 }
 
 //Subtracting two integers, results must be positive.

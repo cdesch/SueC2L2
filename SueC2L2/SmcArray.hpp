@@ -115,7 +115,7 @@ void SmcArray<Element>::pushItem(Element value){
     this->copyArrayIncreasedSize(this->size + 1);
     
     //Add our new value into the last slot in the array
-    this->items[size - 1] = value;
+    this->items[this->size - 1] = value;
 }
 
 //sets an item in the array (overwrite)

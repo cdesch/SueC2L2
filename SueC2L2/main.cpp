@@ -7,33 +7,32 @@
 //
 
 #include <iostream>
+
 #include "SmcArray.hpp"
 #include "BigInt.hpp"
+
 
 using namespace std;
 
 void testAdditionCase(int numA, int numB){
     BigInt myBigInt;
     BigInt secondBigInt;
-    
-    //Testing adding A + B
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "+       Addition                     +" << endl;
-    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
-    cout << "a = " << numA << " b = " << numB << endl;
     myBigInt.assign(numA);
     secondBigInt.assign(numB);
     myBigInt.add(secondBigInt);
-    cout << "The expected result when adding a + b : " << numA + numB << endl;
-    cout << "The actual result when adding a + b   : ";
-    myBigInt.print();
     //FIXME: Overload Compare function on BigInt
     BigInt result;
     result.assign(numA + numB);
     if(myBigInt.compare(result) == 0){
-        cout << "                             *****TEST PASSED******" << endl;
+
+        cout << "Test Passed - Add: " << numA << "+" << numB << "=" << numA + numB;
+        cout << " *****TEST PASSED******" << endl;
     }else{
-        cout << "                             **===TEST FAILED===***" << endl;
+        cout << "Test Failed - Add: " << numA << "+" << numB << "=" << numA + numB;
+        cout << " **===TEST FAILED===***" << endl;
+        cout << "The expected result when adding a + b : " << numA + numB << endl;
+        cout << "The actual result when adding a + b   : ";
+        myBigInt.print();
     }
 }
 
@@ -104,8 +103,20 @@ void testAddition(){
     testAdditionCase(12, 2222);
     testAdditionCase(2222,12);
     testAdditionCase(2222, 2222);
-
-
+    testAdditionCase(0, 0);
+    testAdditionCase(0,25635);
+    testAdditionCase(25635, 307620);
+    testAdditionCase(333255,1025400);
+    testAdditionCase(1358655, 20508000);
+    testAdditionCase(500, 500);
+    testAdditionCase(0, 0);
+    testAdditionCase(0,132);
+    testAdditionCase(132, 880);
+    testAdditionCase(1012,15400);
+    testAdditionCase(16412, 198000);
+    testAdditionCase(4123, 6999);
+    testAdditionCase(6999, 4123);
+    
 }
 
 
@@ -119,9 +130,7 @@ void testMultiply(){
     testMultiplicationCase(39746,0);
     testMultiplicationCase(1, 39746);
     testMultiplicationCase( 39746, 1);
-    
 
-    
 }
 
 int main(int argc, const char * argv[]) {

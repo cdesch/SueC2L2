@@ -10,7 +10,7 @@
 #define SueC2L2_BigInt_h
 
 #include "SmcArray.hpp"
-#include <vector>
+#include <vector> //Fixme: use smcarray
 
 
 //const int kDefaultBigIntSize = 10;
@@ -18,7 +18,6 @@
 class BigInt{
 protected:
     SmcArray<int> digits;
-    SmcArray<int> additionHelper(SmcArray<int> a, SmcArray<int> b);
     
 public:
     BigInt();                        // initialise to zero.
@@ -35,7 +34,7 @@ public:
     int getSize() const;
     void setDigits(SmcArray<int> a);
     int convertCharToInt(char c);
-    void removeLeadingZeros(const BigInt & a);
+    void removeLeadingZeros();
 };
 
 //Constructor
@@ -152,15 +151,15 @@ void BigInt::add(const BigInt & a){
 
     //If there is a carry
     if(carry == 1){
-        this->digits.setItem(this->digits.getItem(indexDifference-1)+1, indexDifference-1);
+        //Check if the carry needs to be inserted at the beginning of the array at in 0
+        if(indexDifference - 1 < 0){
+           this->digits.insertItem(carry, 0);
+        }else{
+           this->digits.setItem(this->digits.getItem(indexDifference-1)+1, indexDifference-1);
+        }
     }
- 
 }
 
-SmcArray<int> BigInt::additionHelper(SmcArray<int> a, SmcArray<int> b){
-    
-    return a;
-}
 
 //Subtracting two integers, results must be positive.
 void BigInt::subtract(const BigInt & a){
@@ -186,17 +185,8 @@ void BigInt::subtract(const BigInt & a){
         this->digits.setItem(diffNum, i);
         i=i-1;
     }
-    //Remove Leading zeros
-    for(int i = 0; i <= this->digits.getSize()-1;){
-        //if the number is not equal to 0 or there is only 1 element left in the array, stop removing zeros
-        if(digits.getItem(i) != 0 || this->digits.getSize() <= 1){
-            return;
-        }else{
-            if(digits.getItem(i) == 0)
-                this->digits.removeItem(i);
-        }
-        i=i;
-    }
+
+    this->removeLeadingZeros();
 }
 
 //TODO: Some awesome comments
@@ -226,17 +216,17 @@ void BigInt::multiply(const BigInt & a){
         for(int i = this->digits.getSize() - 1; i >= 0; i--){
             
             //cout << " IIIII ==== " << i << endl;
-            cout << " a.digits.getItem(j) = " << a.digits.getItem(j) << endl;
-            cout << " this->digits.getItem(i) = " << this->digits.getItem(i) << endl;
+            //cout << " a.digits.getItem(j) = " << a.digits.getItem(j) << endl;
+            //cout << " this->digits.getItem(i) = " << this->digits.getItem(i) << endl;
             multNum = this->digits.getItem(i) * a.digits.getItem(j) + carry;
-            cout << " multNum:  " << multNum << endl;
+            //cout << " multNum:  " << multNum << endl;
             if(multNum >= 10){
                 carry = multNum / 10;
                 multNum = multNum % 10;
             }else{
                 carry = 0;
             }
-            cout << " carry: " << carry << "+ multnum: " << multNum << endl;
+            //cout << " carry: " << carry << "+ multnum: " << multNum << endl;
             middleLine.insertItem(multNum, 0);
          //   middleLine.printArray(true);
 
@@ -247,10 +237,9 @@ void BigInt::multiply(const BigInt & a){
             middleLine.insertItem(carry, 0);
         }
         zeroIndex++;
-        cout << "middleLine: " ;
-        middleLine.printArray(true);
+        //cout << "middleLine: " ;
+        //middleLine.printArray(true);
 
-        
         BigInt myMiddleLine;
         myMiddleLine.setDigits(middleLine);
         middleStepNumbers.push_back(myMiddleLine);
@@ -260,29 +249,19 @@ void BigInt::multiply(const BigInt & a){
     result.assign(0);
     
     for(int i = 0; i< middleStepNumbers.size(); i++ ){
-        cout << "middle Step num: ";
-        middleStepNumbers[i].print();
+        //cout << "middle Step num: ";
+        //middleStepNumbers[i].print();
         BigInt myInt = middleStepNumbers[i];
-        cout << "middle step bignum: " ;
-        myInt.print();
+        //cout << "middle step bignum: " ;
+        //myInt.print();
         
         result.add(myInt);
     }
-    cout << "Myresult: " ;
-    result.print();
+    //cout << "Myresult: " ;
+    //result.print();
     this->assign(result);
+    this->removeLeadingZeros();
     
-    //FIXME: Code duplication
-    for(int i = 0; i <= this->digits.getSize()-1;){ //Remove Leading zeros
-        //if the number is not equal to 0 or there is only 1 element left in the array, stop removing zeros
-        if(digits.getItem(i) != 0 || this->digits.getSize() <= 1){
-            return;
-        }else{
-            if(digits.getItem(i) == 0)
-                this->digits.removeItem(i);
-        }
-        i=i;
-    }
 }
 void BigInt::divide(const BigInt & a){
     
@@ -328,6 +307,19 @@ int BigInt::convertCharToInt(char c){
         return -1; //Error checking
     }
     return myTempInt - 48;
+}
+
+void BigInt::removeLeadingZeros(){
+    for(int i = 0; i <= this->digits.getSize()-1;){ //Remove Leading zeros
+        //if the number is not equal to 0 or there is only 1 element left in the array, stop removing zeros
+        if(digits.getItem(i) != 0 || this->digits.getSize() <= 1){
+            return;
+        }else{
+            if(digits.getItem(i) == 0)
+                this->digits.removeItem(i);
+        }
+        i = i;
+    }
 }
 
 #endif

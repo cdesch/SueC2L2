@@ -295,8 +295,8 @@ void BigInt::divide(const BigInt & a){
             if(frontPart.digits.getSize() > this->digits.getSize()){
                 cout << "Huge problem with length " << endl;
             }
-            cout << "numerator index: " <<numeratorIndex << endl;
-            cout << this->digits.getItem(frontPart.digits.getSize()) << endl;
+            //cout << "numerator index: " <<numeratorIndex << endl;
+            //cout << this->digits.getItem(frontPart.digits.getSize()) << endl;
             frontPart.digits.setItem(this->digits.getItem(numeratorIndex) , frontPart.digits.getSize());
             numeratorIndex ++; //Increment the numeratorIndex if we add another digits
         }
@@ -310,6 +310,8 @@ void BigInt::divide(const BigInt & a){
             frontPart.print();
             numTimesSubtracted ++;
         }
+        
+        
         
         cout << "times subtracted " << numTimesSubtracted << " Numerator index: " << numeratorIndex << endl;
         //store the result

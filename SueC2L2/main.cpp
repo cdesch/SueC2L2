@@ -218,7 +218,27 @@ void testDivide(){
     testDivideCase(1545451, 2312);
     testDivideCase(1545451, 1234);
     testDivideCase(1545451, 54321);
+    //testDivideCase(1545451, 154545);  //Broken with infinite loop
+    //testDivideCase(1545451, 1545);  //Broken with infinite loop
     
+
+
+    testDivideCase(794920, 79492);
+/*
+    testDivideCase(792123122, 7940);
+
+    testDivideCase(2222,1);
+
+    testDivideCase(2222,12);
+    testDivideCase(2222, 2222);
+
+    testDivideCase(33325500,1025400);
+
+    //testDivideCase(500, 500);
+    testDivideCase(6999, 4123);
+     testDivideCase(9999, 99);
+  
+  */
 }
 
 int main(int argc, const char * argv[]) {

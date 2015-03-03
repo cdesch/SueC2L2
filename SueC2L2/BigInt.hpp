@@ -280,33 +280,46 @@ void BigInt::divide(const BigInt & a){
     SmcArray<int> result;
     result.changeSize(this->digits.getSize());
     int numTimesSubtracted = 0;
-    int numeratorIndex = a.getSize() -1;
+    int numeratorIndex = a.getSize();
     
     //copy them over //FIXME LATER
     frontPart.digits = frontDigits;
 
     //FIXEME Adjust language
-    //If denomiator larger than the front part, front end of the numerator, then add a ditigt
-    while(a.compare(frontPart) == 1 ){
-        //TODO Check for length
-        if(frontPart.digits.getSize() > this->digits.getSize()){
-            cout << "Huge problem with length " << endl;
+    
+    while(numeratorIndex < this->digits.getSize()){
+        //If denomiator larger than the front part, front end of the numerator, then add a digit
+        numTimesSubtracted = 0;
+        while(a.compare(frontPart) == 1 ){
+            //TODO Check for length
+            if(frontPart.digits.getSize() > this->digits.getSize()){
+                cout << "Huge problem with length " << endl;
+            }
+            cout << "numerator index: " <<numeratorIndex << endl;
+            cout << this->digits.getItem(frontPart.digits.getSize()) << endl;
+            frontPart.digits.setItem(this->digits.getItem(numeratorIndex) , frontPart.digits.getSize());
+            numeratorIndex ++; //Increment the numeratorIndex if we add another digits
         }
         
-        frontPart.digits.setItem(this->digits.getItem(frontPart.digits.getSize()) , frontPart.digits.getSize());
-        numeratorIndex ++; //Increment the numeratorIndex if we add another digits
+        
+        cout << "front part ";
+        frontPart.print();
+        while (a.compare(frontPart) == -1 ){
+            frontPart.subtract(a);
+            cout << "front part ";
+            frontPart.print();
+            numTimesSubtracted ++;
+        }
+        
+        cout << "times subtracted " << numTimesSubtracted << " Numerator index: " << numeratorIndex << endl;
+        //store the result
+        result.setItem(numTimesSubtracted,numeratorIndex);
+        result.printArray(true);
     }
     
-    
-    while (a.compare(frontPart) == -1 ){
-        frontPart.subtract(a);
-        numTimesSubtracted ++;
-    }
 
-    //store the result
-    result.setItem(numTimesSubtracted,numeratorIndex);
-  
-    
+    this->digits = result;
+    this->removeLeadingZeros();
     
 }
 

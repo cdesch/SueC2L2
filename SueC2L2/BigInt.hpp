@@ -30,7 +30,7 @@ public:
     void subtract(const BigInt & a);
     void multiply(const BigInt & a);
     void divide(const BigInt & a);
-    int compare(const BigInt & a);
+    int compare(const BigInt & a) const;
     int getSize() const;
     void setDigits(SmcArray<int> a);
     int convertCharToInt(char c);
@@ -263,12 +263,57 @@ void BigInt::multiply(const BigInt & a){
     this->removeLeadingZeros();
     
 }
+
+
 void BigInt::divide(const BigInt & a){
+    //Assumption 1: there are no negatives
+    //Assumption 2: A will always be bigger than B. A is divisable by B
+    //TODO: Compare and test for 0
+    
+    BigInt frontPart;
+    SmcArray<int> frontDigits;
+    for(int i = 0; i < a.getSize(); i++){
+        frontDigits.setItem(this->digits.getItem(i), i);
+    }
+
+    
+    SmcArray<int> result;
+    result.changeSize(this->digits.getSize());
+    int numTimesSubtracted = 0;
+    int numeratorIndex = a.getSize() -1;
+    
+    //copy them over //FIXME LATER
+    frontPart.digits = frontDigits;
+
+    //FIXEME Adjust language
+    //If denomiator larger than the front part, front end of the numerator, then add a ditigt
+    while(a.compare(frontPart) == 1 ){
+        //TODO Check for length
+        if(frontPart.digits.getSize() > this->digits.getSize()){
+            cout << "Huge problem with length " << endl;
+        }
+        
+        frontPart.digits.setItem(this->digits.getItem(frontPart.digits.getSize()) , frontPart.digits.getSize());
+        numeratorIndex ++; //Increment the numeratorIndex if we add another digits
+    }
+    
+    
+    while (a.compare(frontPart) == -1 ){
+        frontPart.subtract(a);
+        numTimesSubtracted ++;
+    }
+
+    //store the result
+    result.setItem(numTimesSubtracted,numeratorIndex);
+  
+    
     
 }
 
+
+
 //Comparing two numbers to check if they are >, <, =
-int BigInt::compare(const BigInt & a){
+int BigInt::compare(const BigInt & a) const{
     //Compares the size of the arrays
     if(this->digits.getSize() > a.getSize()){
         return 1;

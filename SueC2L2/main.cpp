@@ -36,6 +36,29 @@ void testAdditionCase(int numA, int numB){
     }
 }
 
+void testSubtractionCase(int numA, int numB){
+    BigInt myBigInt;
+    BigInt secondBigInt;
+    myBigInt.assign(numA);
+    secondBigInt.assign(numB);
+    myBigInt.subtract(secondBigInt);
+    //FIXME: Overload Compare function on BigInt
+    BigInt result;
+    result.assign(numA - numB);
+    if(myBigInt.compare(result) == 0){
+        
+        cout << "Test Passed - Subtract: " << numA << "-" << numB << "=" << numA - numB;
+        cout << " *****TEST PASSED******" << endl;
+    }else{
+        cout << "Test Failed - Subtract: " << numA << "-" << numB << "=" << numA - numB;
+        cout << " **===TEST FAILED===***" << endl;
+        cout << "The expected result when subtracting a - b : " << numA - numB << endl;
+        cout << "The actual result when subtracting a - b   : ";
+        myBigInt.print();
+    }
+}
+
+
 void testMultiplicationCase(int numA, int numB){
     BigInt myBigInt;
     BigInt secondBigInt;
@@ -58,6 +81,29 @@ void testMultiplicationCase(int numA, int numB){
         cout << "                             *****TEST PASSED******" << endl;
     }else{
         cout << "                             **===TEST FAILED===***" << endl;
+    }
+}
+
+
+void testDivideCase(int numA, int numB){
+    BigInt myBigInt;
+    BigInt secondBigInt;
+    myBigInt.assign(numA);
+    secondBigInt.assign(numB);
+    myBigInt.divide(secondBigInt);
+    
+    BigInt result;
+    result.assign(numA / numB);
+    if(myBigInt.compare(result) == 0){
+        
+        cout << "Test Passed - Divide: " << numA << "/" << numB << "=" << numA / numB;
+        cout << " *****TEST PASSED******" << endl;
+    }else{
+        cout << "Test Failed - Divide: " << numA << "/" << numB << "=" << numA / numB;
+        cout << " **===TEST FAILED===***" << endl;
+        cout << "The expected result when Dividing a / b : " << numA / numB << endl;
+        cout << "The actual result when Dividing a / b   : ";
+        myBigInt.print();
     }
 }
 
@@ -119,6 +165,37 @@ void testAddition(){
     
 }
 
+void testSubtraction(){
+    
+    
+    //testSubtractionCase(0, 1234);
+    testSubtractionCase(1234, 0);
+    //testSubtractionCase(79492, 794920);
+    testSubtractionCase(794920, 79492);
+    //testSubtractionCase(7940, 792123122);
+    testSubtractionCase(792123122, 7940);
+    //testSubtractionCase(1, 2222);
+    testSubtractionCase(2222,1);
+    //testSubtractionCase(12, 2222);
+    testSubtractionCase(2222,12);
+    testSubtractionCase(2222, 2222);
+    testSubtractionCase(0, 0);
+    //testSubtractionCase(0,25635);
+    //testSubtractionCase(25635, 307620);
+    testSubtractionCase(33325500,1025400);
+    //testSubtractionCase(1358655, 20508000);
+    testSubtractionCase(500, 500);
+    testSubtractionCase(0, 0);
+    //testSubtractionCase(0,132);
+    //testSubtractionCase(132, 880);
+    //testSubtractionCase(1012,15400);
+    //testSubtractionCase(16412, 198000);
+    //testSubtractionCase(4123, 6999);
+    testSubtractionCase(6999, 4123);
+    
+}
+
+
 
 void testMultiply(){
     
@@ -133,10 +210,23 @@ void testMultiply(){
 
 }
 
+void testDivide(){
+    testDivideCase(1315451, 55);
+    testDivideCase(11115451, 222);
+    testDivideCase(1545451, 12);
+    testDivideCase(1545451, 12);
+    testDivideCase(1545451, 2312);
+    testDivideCase(1545451, 1234);
+    testDivideCase(1545451, 54321);
+    
+}
+
 int main(int argc, const char * argv[]) {
     
-    testAddition();
-    testMultiply();
+    //testAddition();
+    //testMultiply();
+    //testSubtraction();
+    testDivide();
     
     /*
     //Testing and output of test data

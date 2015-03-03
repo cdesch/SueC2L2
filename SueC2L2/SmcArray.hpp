@@ -12,10 +12,10 @@
 using namespace std;
 
 //Constants
-const int defaultSize = 10; //default size is 10
+const int defaultSize = 1; //default size is 1
 const int minSize = 0; //min size of array is 0
 const int maxSize = 100; //max size of array is 100
-const int kDefaultValue = 0; //default value is set to -1
+const int kDefaultValue = 0; //default value is set to 0
 
 //Reference: http://www.cplusplus.com/forum/windows/88843/
 //String Sample Context
@@ -73,8 +73,10 @@ SmcArray<Element>::SmcArray(){
     this->size = defaultSize;
     
     //Allocate an array of this->size
-    this->allocateArray();
     this->defaultValue = kDefaultValue;
+    this->allocateArray();
+    this->setItem(0,0);
+
 }
 
 //Constructor with params
@@ -84,8 +86,9 @@ SmcArray<Element>::SmcArray(int s){
     this->size = s;
     
     //Allocate an array of this->size
-    this->allocateArray();
     this->defaultValue = kDefaultValue;
+    this->allocateArray();
+    
 }
 
 //Deletes the items in array

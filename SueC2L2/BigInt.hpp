@@ -189,7 +189,7 @@ void BigInt::subtract(const BigInt & a){
     this->removeLeadingZeros();
 }
 
-//TODO: Some awesome comments
+//Multiplying two numbers
 void BigInt::multiply(const BigInt & a){
     
     int multNum = 0;
@@ -204,9 +204,7 @@ void BigInt::multiply(const BigInt & a){
     for( int j = a.digits.getSize() - 1 ; j >= 0; j--){
         
         //Middle Line
-        //SmcArray<int> middleLine;
         SmcArray<int> middleLine(0);
-        //middleLine.setItem(0, 0);
         
         for(int z = 0; z < zeroIndex; z++){
             middleLine.pushItem(0);
@@ -215,9 +213,6 @@ void BigInt::multiply(const BigInt & a){
         carry = 0;
         for(int i = this->digits.getSize() - 1; i >= 0; i--){
             
-            //cout << " IIIII ==== " << i << endl;
-            //cout << " a.digits.getItem(j) = " << a.digits.getItem(j) << endl;
-            //cout << " this->digits.getItem(i) = " << this->digits.getItem(i) << endl;
             multNum = this->digits.getItem(i) * a.digits.getItem(j) + carry;
             //cout << " multNum:  " << multNum << endl;
             if(multNum >= 10){
@@ -226,19 +221,13 @@ void BigInt::multiply(const BigInt & a){
             }else{
                 carry = 0;
             }
-            //cout << " carry: " << carry << "+ multnum: " << multNum << endl;
             middleLine.insertItem(multNum, 0);
-         //   middleLine.printArray(true);
 
         }
-
-        //TODO: need to do push back and then add rows
         if(carry!= 0){ //If there is a carry
             middleLine.insertItem(carry, 0);
         }
         zeroIndex++;
-        //cout << "middleLine: " ;
-        //middleLine.printArray(true);
 
         BigInt myMiddleLine;
         myMiddleLine.setDigits(middleLine);
@@ -264,7 +253,7 @@ void BigInt::multiply(const BigInt & a){
     
 }
 
-
+//Dividing two numbers
 void BigInt::divide(const BigInt & a){
     //Assumption 1: there are no negatives
     //Assumption 2: A will always be bigger than B. A is divisable by B
@@ -276,7 +265,6 @@ void BigInt::divide(const BigInt & a){
         frontDigits.setItem(this->digits.getItem(i), i);
     }
 
-    
     SmcArray<int> result;
     result.changeSize(this->digits.getSize());
     int numTimesSubtracted = 0;
@@ -286,49 +274,76 @@ void BigInt::divide(const BigInt & a){
     frontPart.digits = frontDigits;
 
     //FIXEME Adjust language
-    
+    //TODO: comments
+    while (numeratorIndex == this->digits.getSize() && (a.compare(frontPart) != 1)){
+        frontPart.subtract(a);
+        frontPart.print();
+        numTimesSubtracted = numTimesSubtracted +1;
+        result.setItem(numTimesSubtracted,numeratorIndex);
+        result.printArray(true);
+    }
+
+    //TODO: Comments
     while(numeratorIndex < this->digits.getSize()){
         //If denomiator larger than the front part, front end of the numerator, then add a digit
         numTimesSubtracted = 0;
         while(a.compare(frontPart) == 1 ){
             //TODO Check for length
             if(frontPart.digits.getSize() > this->digits.getSize()){
-                cout << "Huge problem with length " << endl;
+                cout << "Problem with length " << endl;
             }
-            //cout << "numerator index: " <<numeratorIndex << endl;
-            //cout << this->digits.getItem(frontPart.digits.getSize()) << endl;
-            frontPart.digits.setItem(this->digits.getItem(numeratorIndex) , frontPart.digits.getSize());
+            cout << this->digits.getItem(frontPart.digits.getSize()) << endl;
+            
+            //Check here
+            frontPart.digits.setItem(this->digits.getItem(numeratorIndex),frontPart.digits.getSize());
             numeratorIndex ++; //Increment the numeratorIndex if we add another digits
         }
         
-        
         cout << "front part ";
         frontPart.print();
+        
         while (a.compare(frontPart) == -1 ){
+            BigInt zero;
+            zero.assign(0);
+            if(frontPart.compare(zero)){
+                cout << "Stop subtracting" << endl;
+                break;
+            }
             frontPart.subtract(a);
-            cout << "front part ";
+            cout << "front part b ";
             frontPart.print();
             numTimesSubtracted ++;
         }
         
-        
+        //?
+        while (a.compare(frontPart) == 0 ){
+            frontPart.subtract(a);
+            cout << "front part when 0 ";
+            frontPart.print();
+            numTimesSubtracted ++;
+        }
         
         cout << "times subtracted " << numTimesSubtracted << " Numerator index: " << numeratorIndex << endl;
         //store the result
+        if(numeratorIndex < 0) numeratorIndex =  numeratorIndex + 1;
         result.setItem(numTimesSubtracted,numeratorIndex);
         result.printArray(true);
     }
-    
-
     this->digits = result;
     this->removeLeadingZeros();
-    
 }
 
-
-
 //Comparing two numbers to check if they are >, <, =
+// -1 if a is greater than this->digits
+// 0 if they are equal
+// 1 if this-> digits is greater than 'a'
 int BigInt::compare(const BigInt & a) const{
+    
+    cout << "compare digits " ;
+    this->digits.printArray(true);
+    cout << "compare a ";
+    a.print();
+    
     //Compares the size of the arrays
     if(this->digits.getSize() > a.getSize()){
         return 1;

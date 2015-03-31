@@ -208,7 +208,7 @@ void SmcArray<Element>::insertItem(Element value, int index){
         
         //Copy to new pointer
         this->items = newArray;
-        this->size = this->getSize()+1;
+        this->size++;
         
     }else{
         cerr << "My program is crashing\n"; //Error statement

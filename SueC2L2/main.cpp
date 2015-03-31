@@ -81,33 +81,6 @@ void testMultiplicationCase(int numA, int numB){
     }
 }
 
-/*
- void testMultiplicationCase(int numA, int numB){
- BigInt myBigInt;
- BigInt secondBigInt;
- 
- //Testing adding A + B
- cout << "++++++++++++++++++++++++++++++++++++++" << endl;
- cout << "+       Multiplication               +" << endl;
- cout << "++++++++++++++++++++++++++++++++++++++" << endl;
- cout << "a = " << numA << " b = " << numB << endl;
- myBigInt.assign(numA);
- secondBigInt.assign(numB);
- myBigInt.multiply(secondBigInt);
- cout << "The expected result when multiplying a * b : " << numA * numB << endl;
- cout << "The actual result when multiplying a * b   : ";
- myBigInt.print();
- //FIXME: Overload Compare function on BigInt
- BigInt result;
- result.assign(numA * numB);
- if(myBigInt.compare(result) == 0){
- cout << "                             *****TEST PASSED******" << endl;
- }else{
- cout << "                             **===TEST FAILED===***" << endl;
- }
- }
- */
-
 void testDivideCase(int numA, int numB){
     BigInt myBigInt;
     BigInt secondBigInt;
@@ -263,6 +236,7 @@ void testAddition(){
     testAdditionCase(999, 1);
     testAdditionCase(99, 5);
     testAdditionCase(99, 6);
+    testAdditionCase(99, 6);
     testAdditionCase(9099, 8);
     cout <<endl;
 }
@@ -365,9 +339,35 @@ void testDivide(){
 int main(int argc, const char * argv[]) {
     
     testAddition();
-    testSubtraction();
-    testMultiply();
-    testDivide();
+    //testSubtraction();
+    //testMultiply();
+    //testDivide();
     //testScenarioTwo();
+    
+    BigInt result1;
+    result1.assign(9099);
+    result1.print();
+
+    BigInt result;
+    result.assign( 8);
+    result.print();
+
+    result1.add(result);
+    result1.print();
+    cout << result1.getSize() << endl;
+    
+    BigInt result2;
+    result2.assign(9107);
+    result2.print();
+    cout << result2.getSize() << endl;
+
+    
+    
+    if(result1.compare(result2) ==0){
+        cout << "worked" << endl;
+    }else{
+        cout << "didnt work" << endl;
+    }
+    
     return 0;
 }

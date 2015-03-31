@@ -111,8 +111,9 @@ void BigInt::add(const BigInt & a){
             return;
         }
     }
-    int indexDifference = abs(this->digits.getSize() - a.digits.getSize());
-    int indexSpread = this->digits.getSize() - a.digits.getSize();
+    
+    int indexDifference = abs(this->digits.getSize() - a.digits.getSize()); //Indexdifference is the difference between the two nubers 5 and 2 --- difference is 3
+    int indexSpread = this->digits.getSize() - a.digits.getSize(); //
     
     //Determines the size of loop if a.digits is less than digits then index is one less than a.digits
     if(this->digits.getSize() < a.digits.getSize()){
@@ -122,20 +123,6 @@ void BigInt::add(const BigInt & a){
         }
         indexDifference = 0;
     }
-    /*
-     //Determines the size of loop if a.digits is less than digits then index is one less than this->digit.getSize() -1
-     if(a.digits.getSize() < this->digits.getSize()){
-     //Insert leading 0's to change the size of this->digits
-     for (int k = 0; k < indexDifference; k++){
-     cout << " here k= " << k << " indexDifference " << indexDifference << endl;
-     int temp = a.digits.getItem(k);
-     a.digits.setItem(k+indexDifference) = temp;
-     a.digits.setItem(k) = 0;
-     cout << "TEMP " << temp << endl;
-     }
-     indexDifference = 0;
-     }
-     */
     
     int startingIndex = this->digits.getSize()-1;
     //cout << endl << "          starting index " << startingIndex << " indexDifference " << indexDifference << endl;
@@ -165,14 +152,32 @@ void BigInt::add(const BigInt & a){
     
     //If there is a carry
     if(carry == 1){
+        cout << "Index Difference:  " << indexDifference << "... " << indexDifference -1 << endl;
         //Check if the carry needs to be inserted at the beginning of the array at in 0
         if(indexDifference - 1 < 0){
+            cout << "Catcing" << endl;
             this->digits.insertItem(carry, 0);
         }else{
-            this->digits.setItem(this->digits.getItem(indexDifference-1)+1, indexDifference-1);
+
+            int firstDigit = this->digits.getItem(indexDifference-1);
+            if((firstDigit + carry) > 9){
+                //Move it up one
+                //If the carry in addition to the existing digit is larger than 9, we need to carry over to the next number
+                this->digits.setItem(firstDigit + carry - 10, indexDifference-1);
+                cout << "inserting" << endl;
+                this->digits.insertItem(carry, 0);
+            }else{
+                //Add the carry to the first digit in the array
+                this->digits.setItem(this->digits.getItem(indexDifference-1)+1, indexDifference-1);
+            }
+
+            
+           
+               
         }
     }
-    this->removeLeadingZeros();
+    //this->removeLeadingZeros();
+    //check
 }
 
 

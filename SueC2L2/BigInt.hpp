@@ -101,6 +101,7 @@ void BigInt::print() const{
 void BigInt::add(const BigInt & a){
     int carry = 0;
     int sumNum = 0;
+    
     //Check if equal to 0
     if(this->digits.getSize() == 1 || a.digits.getSize() == 1){
         if(this->digits.getItem(0) == 0){
@@ -119,12 +120,27 @@ void BigInt::add(const BigInt & a){
         for (int k = 0; k < indexDifference; k++){
             this->digits.insertItem(0, 0);
         }
+        indexDifference = 0;
     }
+    /*
+     //Determines the size of loop if a.digits is less than digits then index is one less than this->digit.getSize() -1
+     if(a.digits.getSize() < this->digits.getSize()){
+     //Insert leading 0's to change the size of this->digits
+     for (int k = 0; k < indexDifference; k++){
+     cout << " here k= " << k << " indexDifference " << indexDifference << endl;
+     int temp = a.digits.getItem(k);
+     a.digits.setItem(k+indexDifference) = temp;
+     a.digits.setItem(k) = 0;
+     cout << "TEMP " << temp << endl;
+     }
+     indexDifference = 0;
+     }
+     */
     
-    int startingIndex = this->digits.getSize() - 1;
-
+    int startingIndex = this->digits.getSize()-1;
+    //cout << endl << "          starting index " << startingIndex << " indexDifference " << indexDifference << endl;
     for(int i = startingIndex; i >= indexDifference; i--){
-        if(this->digits.getSize() > a.digits.getSize()){
+        if(this->digits.getSize() >= a.digits.getSize()){
             sumNum = this->digits.getItem(i) + a.digits.getItem(i-indexDifference) + carry;
         }else{
             sumNum = this->digits.getItem(i) + a.digits.getItem(i) + carry;
@@ -136,10 +152,7 @@ void BigInt::add(const BigInt & a){
         }else{
             carry = 0;
         }
-        
-        //cout << "Set: " << sumNum << " at index: " << i << endl;
         this->digits.setItem(sumNum, i);
-        
     }
     
     //if A was the larger, copy the rest of the items down into the this->digits
@@ -148,16 +161,18 @@ void BigInt::add(const BigInt & a){
             this->digits.setItem(a.digits.getItem(k), k);
         }
     }
-
+    
+    
     //If there is a carry
     if(carry == 1){
         //Check if the carry needs to be inserted at the beginning of the array at in 0
         if(indexDifference - 1 < 0){
-           this->digits.insertItem(carry, 0);
+            this->digits.insertItem(carry, 0);
         }else{
-           this->digits.setItem(this->digits.getItem(indexDifference-1)+1, indexDifference-1);
+            this->digits.setItem(this->digits.getItem(indexDifference-1)+1, indexDifference-1);
         }
     }
+    this->removeLeadingZeros();
 }
 
 
@@ -175,17 +190,15 @@ void BigInt::subtract(const BigInt & a){
         cerr << "Error, negative result and returns early without performing subtraction operation." << endl; //Return error
         return; //Return early
     }
-    
-    for(int i = index; i >= maxindex;){
+    for(int i = index; i >= 0; i--){
         if(this->digits.getItem(i) < a.digits.getItem(i-maxindex)){
             this->digits.setItem(this->digits.getItem(i) + 10, i);
             this->digits.setItem(this->digits.getItem(i-1)-1, i-1);
         }
         diffNum = this->digits.getItem(i) -  a.digits.getItem(i-maxindex);
         this->digits.setItem(diffNum, i);
-        i=i-1;
     }
-
+    
     this->removeLeadingZeros();
 }
 
@@ -196,8 +209,8 @@ void BigInt::multiply(const BigInt & a){
     int carry = 0;
     int zeroIndex = 0;
     
-    cout << " index = " << this->digits.getSize() - 1 << " maxindex = " << a.digits.getSize() - 1 << endl;
-    cout << " a size = " << a.digits.getSize()<< endl;
+    //cout << " index = " << this->digits.getSize() - 1 << " maxindex = " << a.digits.getSize() - 1 << endl;
+    //cout << " a size = " << a.digits.getSize()<< endl;
     
     vector <BigInt> middleStepNumbers;
     
@@ -222,18 +235,18 @@ void BigInt::multiply(const BigInt & a){
                 carry = 0;
             }
             middleLine.insertItem(multNum, 0);
-
+            
         }
         if(carry!= 0){ //If there is a carry
             middleLine.insertItem(carry, 0);
         }
         zeroIndex++;
-
+        
         BigInt myMiddleLine;
         myMiddleLine.setDigits(middleLine);
         middleStepNumbers.push_back(myMiddleLine);
     }
-
+    
     BigInt result;
     result.assign(0);
     
@@ -257,81 +270,64 @@ void BigInt::multiply(const BigInt & a){
 void BigInt::divide(const BigInt & a){
     //Assumption 1: there are no negatives
     //Assumption 2: A will always be bigger than B. A is divisable by B
-    //TODO: Compare and test for 0
     
     BigInt frontPart;
     SmcArray<int> frontDigits;
-    for(int i = 0; i < a.getSize(); i++){
+    for(int i = 0; i < a.getSize(); i++){ //Looping to get digits
         frontDigits.setItem(this->digits.getItem(i), i);
     }
-
+    
+    if(a.compare(frontPart) == -1){ //Checking to see if numerator is less than the denominator
+        return;
+    }
+    
     SmcArray<int> result;
     result.changeSize(this->digits.getSize());
-    int numTimesSubtracted = 0;
-    int numeratorIndex = a.getSize();
+    int numTimesSubtracted = 0; //Initializing variable that counts the number of times subtracting
+    int numeratorIndex = a.getSize(); //Getting size of numberator
     
-    //copy them over //FIXME LATER
-    frontPart.digits = frontDigits;
-
-    //FIXEME Adjust language
-    //TODO: comments
+    frontPart.digits = frontDigits; //Copying front digits into part digits
+    
+    //When the number of digits in numerator and denominator are the same and making sure the numbers are different
     while (numeratorIndex == this->digits.getSize() && (a.compare(frontPart) != 1)){
         frontPart.subtract(a);
-        frontPart.print();
-        numTimesSubtracted = numTimesSubtracted +1;
+        //frontPart.print(); // for debugging
+        numTimesSubtracted = numTimesSubtracted + 1;
         result.setItem(numTimesSubtracted,numeratorIndex);
-        result.printArray(true);
+        //result.printArray(true); // for debugging
     }
-
-    //TODO: Comments
+    
+    //When the number of digits in numerator is greater than the number of digits in the denominator
     while(numeratorIndex < this->digits.getSize()){
-        //If denomiator larger than the front part, front end of the numerator, then add a digit
-        numTimesSubtracted = 0;
-        while(a.compare(frontPart) == 1 ){
-            //TODO Check for length
-            if(frontPart.digits.getSize() > this->digits.getSize()){
-                cout << "Problem with length " << endl;
+        //If denominator is larger than the front part of numerator then add a digit to numerator number
+        numTimesSubtracted = 0; //Setting counter equal to zero
+        while(a.compare(frontPart) == 1 ){ //Do while the
+            if(frontPart.digits.getSize() > this->digits.getSize()){ //Checking to make sure length of numbers is okay
+                cout << "Problem with length " << endl; //Error message
             }
-            cout << this->digits.getItem(frontPart.digits.getSize()) << endl;
-            
-            //Check here
-            frontPart.digits.setItem(this->digits.getItem(numeratorIndex),frontPart.digits.getSize());
+            //cout << this->digits.getItem(frontPart.digits.getSize()) << endl; //Debugging statements
+            //cout << "NUMERATOR INDEX " << numeratorIndex << endl; //Debugging statements
+            frontPart.digits.setItem(this->digits.getItem(numeratorIndex),frontPart.digits.getSize()); //Setting the digit in the answer array
             numeratorIndex ++; //Increment the numeratorIndex if we add another digits
         }
+        //frontPart.print(); // for debugging
         
-        cout << "front part ";
-        frontPart.print();
-        
-        while (a.compare(frontPart) == -1 ){
-            BigInt zero;
-            zero.assign(0);
-            if(frontPart.compare(zero)){
-                cout << "Stop subtracting" << endl;
-                break;
-            }
-            frontPart.subtract(a);
-            cout << "front part b ";
-            frontPart.print();
-            numTimesSubtracted ++;
+        while (a.compare(frontPart) != 1 && numeratorIndex <= this->digits.getSize()){ //Comparing the numerator and denominator front part are not equal and the numerator index is less than or equal to the digit size
+            frontPart.subtract(a); //Subtract the front part from the numerator
+            //frontPart.print(); // for debugging
+            numTimesSubtracted ++; //Incrementing the counter that is counting the number of times the denominator is subtracted from teh denominator
         }
         
-        //?
-        while (a.compare(frontPart) == 0 ){
-            frontPart.subtract(a);
-            cout << "front part when 0 ";
-            frontPart.print();
-            numTimesSubtracted ++;
-        }
-        
-        cout << "times subtracted " << numTimesSubtracted << " Numerator index: " << numeratorIndex << endl;
-        //store the result
-        if(numeratorIndex < 0) numeratorIndex =  numeratorIndex + 1;
-        result.setItem(numTimesSubtracted,numeratorIndex);
-        result.printArray(true);
+        //cout << "times subtracted " << numTimesSubtracted << " Numerator index: " << numeratorIndex << endl; // debugging statement
+        //Storeing the result
+        if(numeratorIndex < 0) numeratorIndex = numeratorIndex + 1; // Incrementing the numerator index if index becomes negative
+        result.setItem(numTimesSubtracted,numeratorIndex); //Setting the digit in the answer array
+        //result.printArray(true); // for debugging
     }
-    this->digits = result;
-    this->removeLeadingZeros();
+    this->digits = result; //Putting the result into the digits array
+    this->removeLeadingZeros(); //Callling function that removes the leading zeroes
 }
+
 
 //Comparing two numbers to check if they are >, <, =
 // -1 if a is greater than this->digits
@@ -339,10 +335,7 @@ void BigInt::divide(const BigInt & a){
 // 1 if this-> digits is greater than 'a'
 int BigInt::compare(const BigInt & a) const{
     
-    cout << "compare digits " ;
-    this->digits.printArray(true);
-    cout << "compare a ";
-    a.print();
+    //this->digits.printArray(true); // for debugging
     
     //Compares the size of the arrays
     if(this->digits.getSize() > a.getSize()){
@@ -364,6 +357,7 @@ int BigInt::compare(const BigInt & a) const{
         return 0;  //Did not find any numbers that were < >, the numbers are equal
     }
 }
+
 
 //Gets the size of an array
 int BigInt::getSize() const{

@@ -47,7 +47,7 @@ public:
     void pushItem(Element value); //inserts item on end of the array
     void setItem(Element value, int index); //sets an item  (overwrites) at given index
     Element getItem(int index); //retrieves an item at a given index - This item can be of Type Element, which can be several different types
-
+    
     Element getItem(int index) const; //retrieves an item at a given index w/const
     void insertItem(Element value, int index); //inserts an item at a given index
     void removeItem(int index); // Delete array item
@@ -76,7 +76,7 @@ SmcArray<Element>::SmcArray(){
     this->defaultValue = kDefaultValue;
     this->allocateArray();
     this->setItem(0,0);
-
+    
 }
 
 //Constructor with params
@@ -156,7 +156,7 @@ Element SmcArray<Element>::getItem(int index){
         
     }else{
         //Even though this will return the default value the user is prompted with a message indicating that a default value has been returned
-        cerr << __PRETTY_FUNCTION__ << "- WARNING: Returning Default Value\n ";//_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
+        //cerr << __PRETTY_FUNCTION__ << "- WARNING: Returning Default Value\n ";//_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
         
         return this->defaultValue; //returns the default value
     }
@@ -171,7 +171,7 @@ Element SmcArray<Element>::getItem(int index) const{
         return this->items[index]; //writes the value into the item array
     }else{
         //Even though this will return the default value the user is prompted with a message indicating that a default value has been returned
-        cerr << __PRETTY_FUNCTION__ << "- WARNING: Returning Default Value\n ";//_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
+        //cerr << __PRETTY_FUNCTION__ << "- WARNING: Returning Default Value\n ";//_PRETTY_FUNCTION helps with debugging by identifying the name of where error is located
         
         return this->defaultValue; //returns the default value
     }

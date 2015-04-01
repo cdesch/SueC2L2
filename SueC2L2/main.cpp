@@ -238,6 +238,8 @@ void testAddition(){
     testAdditionCase(99, 6);
     testAdditionCase(99, 6);
     testAdditionCase(9099, 8);
+    testAdditionCase(90900999, 9);
+    testAdditionCase(90900999, 1);
     cout <<endl;
 }
 
@@ -339,35 +341,10 @@ void testDivide(){
 int main(int argc, const char * argv[]) {
     
     testAddition();
-    //testSubtraction();
-    //testMultiply();
-    //testDivide();
-    //testScenarioTwo();
-    
-    BigInt result1;
-    result1.assign(9099);
-    result1.print();
+    testSubtraction();
+    testMultiply();
+    testDivide();
+    testScenarioTwo();
 
-    BigInt result;
-    result.assign( 8);
-    result.print();
-
-    result1.add(result);
-    result1.print();
-    cout << result1.getSize() << endl;
-    
-    BigInt result2;
-    result2.assign(9107);
-    result2.print();
-    cout << result2.getSize() << endl;
-
-    
-    
-    if(result1.compare(result2) ==0){
-        cout << "worked" << endl;
-    }else{
-        cout << "didnt work" << endl;
-    }
-    
     return 0;
 }

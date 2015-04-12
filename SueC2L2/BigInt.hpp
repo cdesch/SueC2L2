@@ -187,9 +187,7 @@ bool BigInt::handleNegativesForAddition(const BigInt & a){
 void BigInt::add(const BigInt & a){
     
     //cout << __PRETTY_FUNCTION__ << endl;
-  
-    
-
+ 
     if(!this->negativeHandled){
         if(this->handleNegativesForAddition(a)){
             return;
@@ -297,7 +295,7 @@ void BigInt::add(const BigInt & a){
 }
 bool BigInt::handleNegativesForSubtraction(const BigInt & a){
     
-    cout << __PRETTY_FUNCTION__ << endl;
+    //cout << __PRETTY_FUNCTION__ << endl;
     this->negativeHandled = true;
     
     if(this->getPositive() && a.getPositive()){
@@ -322,14 +320,14 @@ bool BigInt::handleNegativesForSubtraction(const BigInt & a){
 //Subtracting two integers, results must be positive.
 void BigInt::subtract(const BigInt & a){
     
-    cout << __PRETTY_FUNCTION__ << endl;
+    //cout << __PRETTY_FUNCTION__ << endl;
     if(!this->negativeHandled){
         if(this->handleNegativesForSubtraction(a)){
             return;
         }
     }
     
-    cout << "should be here" << endl;
+    //cout << "should be here" << endl;
     
     
     int maxindex = 0;  //maximum index
@@ -342,24 +340,42 @@ void BigInt::subtract(const BigInt & a){
     //Compares two numbers to determine if the the result will be a negative number. If negative result, program ends.
     
     if(this->compareAbsoluteValue(a) < 0){
-        index = a.digits.getSize() - 1;
-        maxindex = a.digits.getSize() - this->digits.getSize();
+        
+        
 
-        int digitPlaceHolder = 0;
-        int toLeftPlaceHolder = 0;
+        
+        BigInt tempInt;
+        tempInt.assign(a);
+        
+        if(this->getPositive() && tempInt.getPositive()){
+            tempInt.setNegative(true);
+        }
+        index = tempInt.digits.getSize() - 1;
+        maxindex = tempInt.digits.getSize() - this->digits.getSize();
+
         for(int i = index; i >= 0; i--){
 
-            if(this->digits.getItem(i-maxindex) > a.digits.getItem(i)){
-                digitPlaceHolder = a.digits.getItem(i) + 10;
-                toLeftPlaceHolder = a.digits.getItem(i-1)-1;
-                //this->digits.setItem(this->digits.getItem(i) + 10, i);
-                //this->digits.setItem(this->digits.getItem(i-1)-1, i-1);
+            if(this->digits.getItem(i-maxindex) > tempInt.digits.getItem(i)){
+
+                tempInt.digits.setItem(tempInt.digits.getItem(i) + 10, i);
+                tempInt.digits.setItem(tempInt.digits.getItem(i-1)-1, i-1);
             }
-            //diffNum = this->digits.getItem(i) -  a.digits.getItem(i-maxindex);
-            diffNum = digitPlaceHolder - this->digits.getItem(i-maxindex);
-            this->digits.setItem(diffNum, i);
+            diffNum = tempInt.digits.getItem(i) -  this->digits.getItem(i-maxindex);
+            
+            //diffNum = digitPlaceHolder - this->digits.getItem(i-maxindex);
+            tempInt.digits.setItem(diffNum, i);
         }
-        //return; //Return early
+        
+        //cout << "print temp" ;
+        //tempInt.print();
+        this->assign(tempInt);
+        this->removeLeadingZeros();
+        
+        if(!this->negativeHandled){
+            if(this->getNegative() && a.getNegative()){
+                this->setNegative(false);
+            }
+        }
     }else{
         index = this->digits.getSize() - 1;
         maxindex = this->digits.getSize() - a.digits.getSize();
@@ -373,16 +389,16 @@ void BigInt::subtract(const BigInt & a){
             diffNum = this->digits.getItem(i) -  a.digits.getItem(i-maxindex);
             this->digits.setItem(diffNum, i);
         }
+        
+        this->removeLeadingZeros();
     }
     
 
-    if(!this->negativeHandled){
-        cout << "Follow up on negative number" << endl;
-    }
+
     
     //this->digits.printArray(true);
     
-    this->removeLeadingZeros();
+
     this->negativeHandled = false;
 }
 
@@ -523,7 +539,7 @@ int BigInt::compare(const BigInt & a) const{
     
     if(this->getNegative() && a.getPositive()){
         return -1;
-    }else if(this->getPositive() && a.getPositive()){
+    }else if(this->getPositive() && a.getNegative()){
         return 1;
     }
     

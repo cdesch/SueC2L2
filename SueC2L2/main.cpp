@@ -256,30 +256,30 @@ void testAddition(){
 void testSubtraction(){
     cout << "Tests for Subtraction: " << endl;
     cout << "----------------------" << endl;
-    //testSubtractionCase(0, 1234);
+    testSubtractionCase(0, 1234);
     testSubtractionCase(1234, 0);
-    //testSubtractionCase(79492, 794920);
+    testSubtractionCase(79492, 794920);
     testSubtractionCase(794920, 79492);
-    //testSubtractionCase(7940, 792123122);
+    testSubtractionCase(7940, 792123122);
     testSubtractionCase(792123122, 7940);
-    //testSubtractionCase(1, 2222);
+    testSubtractionCase(1, 2222);
     testSubtractionCase(2222,1);
     testSubtractionCase(2222,9);
-    //testSubtractionCase(12, 2222);
+    testSubtractionCase(12, 2222);
     testSubtractionCase(2222,12);
     testSubtractionCase(2222, 2222);
     testSubtractionCase(0, 0);
-    //testSubtractionCase(0,25635);
-    //testSubtractionCase(25635, 307620);
+    testSubtractionCase(0,25635);
+    testSubtractionCase(25635, 307620);
     testSubtractionCase(33325500,1025400);
-    //testSubtractionCase(1358655, 20508000);
+    testSubtractionCase(1358655, 20508000);
     testSubtractionCase(500, 500);
     testSubtractionCase(0, 0);
-    //testSubtractionCase(0,132);
-    //testSubtractionCase(132, 880);
-    //testSubtractionCase(1012,15400);
-    //testSubtractionCase(16412, 198000);
-    //testSubtractionCase(4123, 6999);
+    testSubtractionCase(0,132);
+    testSubtractionCase(132, 880);
+    testSubtractionCase(1012,15400);
+    testSubtractionCase(16412, 198000);
+    testSubtractionCase(4123, 6999);
     testSubtractionCase(1000, 1);
     testSubtractionCase(10000, 2);
     testSubtractionCase(1000, 55);
@@ -321,8 +321,49 @@ void testSubtractionNegative(){
     testSubtractionCase(10, -5);
     testSubtractionCase(-10, -5);
     testSubtractionCase(-10, 5);
+    
+    testSubtractionCase(10, 4);
+    testSubtractionCase(10, -4);
+    testSubtractionCase(-10, -4);
+    testSubtractionCase(-10, 4);
 
-
+ 
+    testSubtractionCase(4, 10);
+    testSubtractionCase(4, -10);
+    testSubtractionCase(-4, -10);
+    testSubtractionCase(-4, 10);
+    
+    
+    testSubtractionCase(-1000, 1);
+    testSubtractionCase(-10000, 2);
+    testSubtractionCase(-1000, 55);
+    testSubtractionCase(-1000, 888);
+    testSubtractionCase(-100000, 777);
+    testSubtractionCase(-100000, 99999);
+    
+    
+    testSubtractionCase(1000, -1);
+    testSubtractionCase(10000,- 2);
+    testSubtractionCase(1000, -55);
+    testSubtractionCase(1000, -888);
+    testSubtractionCase(100000,- 777);
+    testSubtractionCase(100000, -99999);
+    
+    testSubtractionCase(1, -1000);
+    testSubtractionCase(2, -10000);
+    testSubtractionCase(55 ,-1000);
+    testSubtractionCase(888,-1000);
+    testSubtractionCase(777, -100000);
+    testSubtractionCase(99999,-100000);
+    
+    
+    testSubtractionCase(-1, 1000);
+    testSubtractionCase(-2, 10000);
+    testSubtractionCase(-55 ,1000);
+    testSubtractionCase(-888,1000);
+    testSubtractionCase(-777, 100000);
+    testSubtractionCase(-99999,100000);
+    
     cout << endl;
 }
 
@@ -565,17 +606,17 @@ void testRPNProvidedUseCases(){
 }
 
 int main(int argc, const char * argv[]) {
-    /*
-    testAddition();
+    
+    //testAddition();
     testSubtraction();
-    testMultiply();
-    testDivide();
-    testScenarioTwo();
-*/
+    //testMultiply();
+    //testDivide();
+    //testScenarioTwo();
+
     //testRPNProvidedUseCases();
     
     testAdditionNegative();
-    //testSubtractionNegative();
+    testSubtractionNegative();
     
     return 0;
 }

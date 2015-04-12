@@ -374,12 +374,10 @@ void testSubtractionNegative(){
     testSubtractionCase(-10, -4);
     testSubtractionCase(-10, 4);
 
- 
     testSubtractionCase(4, 10);
     testSubtractionCase(4, -10);
     testSubtractionCase(-4, -10);
     testSubtractionCase(-4, 10);
-    
     
     testSubtractionCase(-1000, 1);
     testSubtractionCase(-10000, 2);
@@ -387,7 +385,6 @@ void testSubtractionNegative(){
     testSubtractionCase(-1000, 888);
     testSubtractionCase(-100000, 777);
     testSubtractionCase(-100000, 99999);
-    
     
     testSubtractionCase(1000, -1);
     testSubtractionCase(10000,- 2);
@@ -435,6 +432,26 @@ void testMultiply(){
     testMultiplicationCase(900, 5000);
     testMultiplicationCase(120009, 5906);
     testMultiplicationCase(5906, 120009);
+    
+    testMultiplicationCase(-7, 5678);
+    testMultiplicationCase(-5678, 7);
+    testMultiplicationCase(-39746, 22);
+    testMultiplicationCase(-22, 39746);
+    testMultiplicationCase(0, -39746);
+    testMultiplicationCase(39746,0);
+    testMultiplicationCase(1, -39746);
+    testMultiplicationCase(39746,-1);
+    testMultiplicationCase(9909, -9);
+    testMultiplicationCase(9, -9909);
+    testMultiplicationCase(-9999, -109);
+    testMultiplicationCase(-109, -9999);
+    testMultiplicationCase(70007, -7007);
+    testMultiplicationCase(-7007, 70007);
+    testMultiplicationCase(5000, 900);
+    testMultiplicationCase(-900, -5000);
+    testMultiplicationCase(120009, -5906);
+    testMultiplicationCase(-5906, 120009);
+    testMultiplicationCase(0,-55);
     cout << endl;
 }
 
@@ -470,6 +487,36 @@ void testDivide(){
     testDivideCase(7007, 70007);
     testDivideCase(5000, 900);
     testDivideCase(900, 5000);
+    
+    //testDivideCase(1, -55);
+    //testDivideCase(5, -5556);
+    testDivideCase(-1315451, -55);
+    testDivideCase(-11115451, -222);
+    testDivideCase(1545451, -12);
+    testDivideCase(-1545451, 12);
+    testDivideCase(1545451, -2312);
+    testDivideCase(1545451, -1234);
+    testDivideCase(-1545451, -54321);
+    testDivideCase(792123122, 7940);
+    testDivideCase(9999, 99);
+    testDivideCase(-9999, -9);
+    testDivideCase(2222,-12);
+    testDivideCase(-33325500,1025400);
+    testDivideCase(6999, -4123);
+    testDivideCase(89999, -11111);
+    testDivideCase(-2222, -2222);
+    testDivideCase(500, -500);
+    testDivideCase(800000, -800000);
+    testDivideCase(2222,1);
+    testDivideCase(1,1);
+    //testDivideCase(0,1);
+    testDivideCase(1545451, 154545);
+    testDivideCase(1545451, 15);
+    testDivideCase(794920, 79492);
+    testDivideCase(70007, 7007);
+    //testDivideCase(7007, 70007);
+    testDivideCase(5000, 900);
+    //testDivideCase(900, 5000);
     cout << endl;
 }
 
@@ -654,15 +701,15 @@ void testRPNProvidedUseCases(){
 
 int main(int argc, const char * argv[]) {
     
-    testAddition();
+    //testAddition();
     //testSubtraction();
-    //testMultiply();
-    //testDivide();
+    testMultiply();
+    testDivide();
     //testScenarioTwo();
 
     //testRPNProvidedUseCases();
     
-    testAdditionNegative();
+    //testAdditionNegative();
     //testSubtractionNegative();
     
     return 0;

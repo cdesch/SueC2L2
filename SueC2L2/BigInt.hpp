@@ -46,6 +46,10 @@ public:
         this->negative = negative;
     }
     
+    void setPositive(bool positive){
+        this->negative = !positive;
+    }
+    
     bool getNegative() const{
         return this->negative;
     }
@@ -341,9 +345,6 @@ void BigInt::subtract(const BigInt & a){
     
     if(this->compareAbsoluteValue(a) < 0){
         
-        
-
-        
         BigInt tempInt;
         tempInt.assign(a);
         
@@ -393,9 +394,7 @@ void BigInt::subtract(const BigInt & a){
         this->removeLeadingZeros();
     }
     
-
-
-    
+   
     //this->digits.printArray(true);
     
 
@@ -404,6 +403,15 @@ void BigInt::subtract(const BigInt & a){
 
 //Multiplying two numbers
 void BigInt::multiply(const BigInt & a){
+    
+    this->negativeHandled = true;
+    if(this->getNegative() && a.getNegative()){
+        this->setPositive(true);
+    }else if(this->getNegative() && a.getPositive()){
+        this->setNegative(true);
+    }else if(this->getPositive() && a.getNegative()){
+        this->setNegative(true);
+    }
     
     int multNum = 0;
     int carry = 0;
@@ -459,17 +467,32 @@ void BigInt::multiply(const BigInt & a){
         
         result.add(myInt);
     }
+    result.setNegative(this->getNegative());
     //cout << "Myresult: " ;
     //result.print();
     this->assign(result);
     this->removeLeadingZeros();
     
+    BigInt zero;
+    zero.assign(0);
+    if(this->compareAbsoluteValue(zero) == 0){
+        this->setPositive(true);
+    }
+    
+    this->negativeHandled = false;
 }
 
 //Dividing two numbers
 void BigInt::divide(const BigInt & a){
-    //Assumption 1: there are no negatives
-    //Assumption 2: A will always be bigger than B. A is divisable by B
+    //Assumption 2: this->digits will always be bigger than 1. A is divisable by B
+    this->negativeHandled = true;
+    if(this->getNegative() && a.getNegative()){
+        this->setPositive(true);
+    }else if(this->getNegative() && a.getPositive()){
+        this->setNegative(true);
+    }else if(this->getPositive() && a.getNegative()){
+        this->setNegative(true);
+    }
     
     BigInt frontPart;
     SmcArray<int> frontDigits;
@@ -477,7 +500,7 @@ void BigInt::divide(const BigInt & a){
         frontDigits.setItem(this->digits.getItem(i), i);
     }
     
-    if(a.compare(frontPart) == -1){ //Checking to see if numerator is less than the denominator
+    if(a.compareAbsoluteValue(frontPart) == -1){ //Checking to see if numerator is less than the denominator
         return;
     }
     
@@ -489,7 +512,7 @@ void BigInt::divide(const BigInt & a){
     frontPart.digits = frontDigits; //Copying front digits into part digits
     
     //When the number of digits in numerator and denominator are the same and making sure the numbers are different
-    while (numeratorIndex == this->digits.getSize() && (a.compare(frontPart) != 1)){
+    while (numeratorIndex == this->digits.getSize() && (a.compareAbsoluteValue(frontPart) != 1)){
         frontPart.subtract(a);
         //frontPart.print(); // for debugging
         numTimesSubtracted = numTimesSubtracted + 1;
@@ -501,7 +524,7 @@ void BigInt::divide(const BigInt & a){
     while(numeratorIndex < this->digits.getSize()){
         //If denominator is larger than the front part of numerator then add a digit to numerator number
         numTimesSubtracted = 0; //Setting counter equal to zero
-        while(a.compare(frontPart) == 1 ){ //Do while the
+        while(a.compareAbsoluteValue(frontPart) == 1 ){ //Do while the
             if(frontPart.digits.getSize() > this->digits.getSize()){ //Checking to make sure length of numbers is okay
                 cout << "Problem with length " << endl; //Error message
             }
@@ -512,7 +535,7 @@ void BigInt::divide(const BigInt & a){
         }
         //frontPart.print(); // for debugging
         
-        while (a.compare(frontPart) != 1 && numeratorIndex <= this->digits.getSize()){ //Comparing the numerator and denominator front part are not equal and the numerator index is less than or equal to the digit size
+        while (a.compareAbsoluteValue(frontPart) != 1 && numeratorIndex <= this->digits.getSize()){ //Comparing the numerator and denominator front part are not equal and the numerator index is less than or equal to the digit size
             frontPart.subtract(a); //Subtract the front part from the numerator
             //frontPart.print(); // for debugging
             numTimesSubtracted ++; //Incrementing the counter that is counting the number of times the denominator is subtracted from teh denominator
@@ -526,6 +549,8 @@ void BigInt::divide(const BigInt & a){
     }
     this->digits = result; //Putting the result into the digits array
     this->removeLeadingZeros(); //Callling function that removes the leading zeroes
+
+    this->negativeHandled = false;
 }
 
 

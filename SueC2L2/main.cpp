@@ -21,11 +21,18 @@ void testAdditionCase(int numA, int numB){
     BigInt myBigInt;
     BigInt secondBigInt;
     myBigInt.assign(numA);
+    myBigInt.print();
     secondBigInt.assign(numB);
+    secondBigInt.print();
     myBigInt.add(secondBigInt);
-    //FIXME: Overload Compare function on BigInt
     BigInt result;
+    //result.print();
+    cout << "actual obj : ";
+    myBigInt.print();
+
     result.assign(numA + numB);
+    cout << "expected obj : ";
+    result.print();
     if(myBigInt.compare(result) == 0){
         
         cout << "Test Passed - Add: " << numA << "+" << numB << "=" << numA + numB;
@@ -282,6 +289,43 @@ void testSubtraction(){
     cout << endl;
 }
 
+
+
+void testAdditionNegative(){
+    cout << "Tests for Addition: " << endl;
+    cout << "-------------------" << endl;
+    
+    /*
+    testAdditionCase(10, 5);
+    testAdditionCase(10, -5);
+    testAdditionCase(-10, -5);
+    testAdditionCase(-10, 5);
+    
+    testAdditionCase(5, 10);
+     */
+    //testAdditionCase(5, -10);//Broken
+    //testAdditionCase(6, -12);//Broken
+    testAdditionCase(4, -10);
+    //testAdditionCase(-5, -10);
+    //testAdditionCase(-5, 10);
+
+
+    cout <<endl;
+}
+
+void testSubtractionNegative(){
+    cout << "Tests for Subtraction: " << endl;
+    cout << "----------------------" << endl;
+
+    testSubtractionCase(10, 5);
+    testSubtractionCase(10, -5);
+    testSubtractionCase(-10, -5);
+    testSubtractionCase(-10, 5);
+
+
+    cout << endl;
+}
+
 void testMultiply(){
     cout << "Tests for Multiplication: " << endl;
     cout << "-------------------------" << endl;
@@ -388,8 +432,10 @@ TOKEN tokenDetector(string s){
 
 
 void RPNCalcuator(vector<string>parsedInput){
+    BigInt* zero = new BigInt();
+    zero->assign(0);
     
-    vector<int> myStack;
+    vector<BigInt*> myStack;
     for(int i = 0; i < parsedInput.size(); i++){
         if(tokenDetector(parsedInput[i]) != NUMBER){
             //If it is an operator -- Do some math
@@ -399,37 +445,51 @@ void RPNCalcuator(vector<string>parsedInput){
                 return;
             }
             //pop last two values
-            int second = myStack.back();
-            myStack.pop_back();
-            int first = myStack.back();
+            BigInt* second = new BigInt();
+            second->assign(*myStack.back());
             myStack.pop_back();
             
-            int result;
+            BigInt* first = new BigInt();
+            first->assign(*myStack.back());
+            myStack.pop_back();
             
+            BigInt* result = new BigInt();
+            
+            
+        
             //Determine which operator &
             //do the calcuation
             TOKEN oper = tokenDetector(parsedInput[i]);
             switch (oper){
                 case ADDITION:
-                    
-                    result = first + second;
+                    first->add(*second);
+                    result->assign(*first);
                     
                     break;
                 case DIVISION:
-                    if(second != 0){
-                        result = first / second;
+    
+                    if(second->compare(*zero) != 0){
+                        first->divide(*second);
+                        result->assign(*first);
+                        //result = first / second;
+                        //delete zero;
                     }else{
                         cout << "Attempted to divide by 0" << endl;
+                        delete zero;
                         return;
                     }
                     
                     break;
                 case SUBTRACTION:
-                    result = first - second;
+                    first->subtract(*second);
+                    result->assign(*first);
+                    //result = first - second;
                     
                     break;
                 case MULTIPLICATION:
-                    result = first * second;
+                    first->multiply(*second);
+                    result->assign(*first);
+                    //result = first * second;
                     
                     break;
                     
@@ -437,7 +497,8 @@ void RPNCalcuator(vector<string>parsedInput){
                     cout<< "Error: Operator not found" << endl;
             }
             //cout <<  result << " " << first << " " << second << endl;
-            
+            delete first;
+            delete second;
             //Push the result back onto the stack
             myStack.push_back(result);
             
@@ -447,9 +508,15 @@ void RPNCalcuator(vector<string>parsedInput){
                 cout << "Error: illegal Reverse Polish Notation Syntax" << endl;
                 return;
             }
-            
-            myStack.push_back(atoi(parsedInput[i].c_str()));
+            BigInt* number = new BigInt();
+            number->assign(parsedInput[i].c_str());
+            myStack.push_back(number);
+            //myStack.push_back(atoi(parsedInput[i].c_str()));
         }
+    }
+    
+    if(zero){
+        delete zero;
     }
     
     if(myStack.size() > 1){
@@ -457,8 +524,12 @@ void RPNCalcuator(vector<string>parsedInput){
         return;
     }
     
-    cout << "My Calculation: " << myStack.back() << endl;
+    cout << "My Calculation: ";
+    myStack.back()->print();
+    
 }
+
+
 
 
 void testRPNProvidedUseCases(){
@@ -482,6 +553,8 @@ void testRPNProvidedUseCases(){
     useCases.push_back("123 + 321"); //should fail
     useCases.push_back("123 2 + 50 25 25 + + "); //should fail
     useCases.push_back("123 2 + 50 25 25 + + + + + "); //should fail
+    useCases.push_back("99999999999999999999999999999999999999999999999 2 * 1 -");
+    //useCases.push_back("123 2 + 50 25 25 + + + + + ");
     
     for (int i = 0; i < useCases.size(); i++){
         vector<string> parsedInput = parseString(useCases[i]);
@@ -499,7 +572,10 @@ int main(int argc, const char * argv[]) {
     testDivide();
     testScenarioTwo();
 */
-    testRPNProvidedUseCases();
+    //testRPNProvidedUseCases();
+    
+    testAdditionNegative();
+    //testSubtractionNegative();
     
     return 0;
 }

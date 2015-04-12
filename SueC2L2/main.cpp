@@ -21,18 +21,18 @@ void testAdditionCase(int numA, int numB){
     BigInt myBigInt;
     BigInt secondBigInt;
     myBigInt.assign(numA);
-    myBigInt.print();
+   // myBigInt.print();
     secondBigInt.assign(numB);
-    secondBigInt.print();
+    //secondBigInt.print();
     myBigInt.add(secondBigInt);
     BigInt result;
     //result.print();
     cout << "actual obj : ";
-    myBigInt.print();
+    //myBigInt.print();
 
     result.assign(numA + numB);
-    cout << "expected obj : ";
-    result.print();
+    //cout << "expected obj : ";
+    //result.print();
     if(myBigInt.compare(result) == 0){
         
         cout << "Test Passed - Add: " << numA << "+" << numB << "=" << numA + numB;
@@ -295,19 +295,66 @@ void testAdditionNegative(){
     cout << "Tests for Addition: " << endl;
     cout << "-------------------" << endl;
     
-    /*
+    
     testAdditionCase(10, 5);
     testAdditionCase(10, -5);
     testAdditionCase(-10, -5);
     testAdditionCase(-10, 5);
     
     testAdditionCase(5, 10);
-     */
-    //testAdditionCase(5, -10);//Broken
-    //testAdditionCase(6, -12);//Broken
+    
+    testAdditionCase(5, -10);//Broken
+    testAdditionCase(6, -12);//Broken
     testAdditionCase(4, -10);
-    //testAdditionCase(-5, -10);
-    //testAdditionCase(-5, 10);
+    testAdditionCase(-5, -10);
+    testAdditionCase(-5, 10);
+    
+    testAdditionCase(10, 5);
+    testAdditionCase(10, -5);
+    testAdditionCase(-10, -5);
+    testAdditionCase(-10, 5);
+    
+    testAdditionCase(10, 4);
+    testAdditionCase(10, -4);
+    testAdditionCase(-10, -4);
+    testAdditionCase(-10, 4);
+    
+    
+    testAdditionCase(4, 10);
+    testAdditionCase(4, -10);
+    testAdditionCase(-4, -10);
+    testAdditionCase(-4, 10);
+    
+    
+    testAdditionCase(-1000, 1);
+    testAdditionCase(-10000, 2);
+    testAdditionCase(-1000, 55);
+    testAdditionCase(-1000, 888);
+    testAdditionCase(-100000, 777);
+    testAdditionCase(-100000, 99999);
+    
+    
+    testAdditionCase(1000, -1);
+    testAdditionCase(10000,- 2);
+    testAdditionCase(1000, -55);
+    testAdditionCase(1000, -888);
+    testAdditionCase(100000,- 777);
+    testAdditionCase(100000, -99999);
+    
+    testAdditionCase(1, -1000);
+    testAdditionCase(2, -10000);
+    testAdditionCase(55 ,-1000);
+    testAdditionCase(888,-1000);
+    testAdditionCase(777, -100000);
+    testAdditionCase(99999,-100000);
+    
+    
+    testAdditionCase(-1, 1000);
+    testAdditionCase(-2, 10000);
+    testAdditionCase(-55 ,1000);
+    testAdditionCase(-888,1000);
+    testAdditionCase(-777, 100000);
+    testAdditionCase(-99999,100000);
 
 
     cout <<endl;
@@ -607,8 +654,8 @@ void testRPNProvidedUseCases(){
 
 int main(int argc, const char * argv[]) {
     
-    //testAddition();
-    testSubtraction();
+    testAddition();
+    //testSubtraction();
     //testMultiply();
     //testDivide();
     //testScenarioTwo();
@@ -616,7 +663,7 @@ int main(int argc, const char * argv[]) {
     //testRPNProvidedUseCases();
     
     testAdditionNegative();
-    testSubtractionNegative();
+    //testSubtractionNegative();
     
     return 0;
 }

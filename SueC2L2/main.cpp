@@ -10,10 +10,13 @@
 
 #include "SmcArray.hpp"
 #include "BigInt.hpp"
-
+#include <string>
+#include <vector>
+#include <sstream>
+#include <fstream>
 
 using namespace std;
-
+enum TOKEN { ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION, NUMBER };
 void testAdditionCase(int numA, int numB){
     BigInt myBigInt;
     BigInt secondBigInt;
@@ -338,13 +341,165 @@ void testDivide(){
     cout << endl;
 }
 
-int main(int argc, const char * argv[]) {
+
+vector<string> parseString(string inputString){
     
+    vector<string> parsedInput;
+    
+    string token;
+    stringstream stringStream(inputString);
+    
+    while(getline(stringStream,token,' ')){
+        parsedInput.push_back(token);
+        //cout << token << " " << endl;
+    }
+    
+    return parsedInput;
+}
+
+//if its + * / .... assume it is a operator
+// if it is a - .... we need to check to see if there is a following.
+TOKEN tokenDetector(string s){
+    
+    if(s == "+" || s == "*" || s == "x" || s == "X" || s == "/" || s == "\\"  || s == "-" ){
+        
+        //cout <<  s <<" is an operator "<<  endl;
+        
+        if(s == "+" ){
+            return ADDITION;
+        }else if(s == "*" || s == "x" || s == "X" ){
+            return MULTIPLICATION;
+        }else if (s == "/" || s == "\\" ){
+            return DIVISION;
+        }else if (s == "-"){
+            return SUBTRACTION;
+        }else{
+            cout << "Error" << endl;
+            return NUMBER;
+        }
+        
+    }else{
+        //cout <<  s <<" is a number "<< endl;
+        return NUMBER;
+    }
+    
+}
+
+
+
+void RPNCalcuator(vector<string>parsedInput){
+    
+    vector<int> myStack;
+    for(int i = 0; i < parsedInput.size(); i++){
+        if(tokenDetector(parsedInput[i]) != NUMBER){
+            //If it is an operator -- Do some math
+            
+            if(myStack.size() < 2){
+                cout << "Error: illegal Reverse Polish Notation Syntax" << endl;
+                return;
+            }
+            //pop last two values
+            int second = myStack.back();
+            myStack.pop_back();
+            int first = myStack.back();
+            myStack.pop_back();
+            
+            int result;
+            
+            //Determine which operator &
+            //do the calcuation
+            TOKEN oper = tokenDetector(parsedInput[i]);
+            switch (oper){
+                case ADDITION:
+                    
+                    result = first + second;
+                    
+                    break;
+                case DIVISION:
+                    if(second != 0){
+                        result = first / second;
+                    }else{
+                        cout << "Attempted to divide by 0" << endl;
+                        return;
+                    }
+                    
+                    break;
+                case SUBTRACTION:
+                    result = first - second;
+                    
+                    break;
+                case MULTIPLICATION:
+                    result = first * second;
+                    
+                    break;
+                    
+                default:
+                    cout<< "Error: Operator not found" << endl;
+            }
+            //cout <<  result << " " << first << " " << second << endl;
+            
+            //Push the result back onto the stack
+            myStack.push_back(result);
+            
+        }else{
+            //If it is a number -- just add it to the stack.
+            if(i == parsedInput.size() - 1){
+                cout << "Error: illegal Reverse Polish Notation Syntax" << endl;
+                return;
+            }
+            
+            myStack.push_back(atoi(parsedInput[i].c_str()));
+        }
+    }
+    
+    if(myStack.size() > 1){
+        cout << "Error: illegal Reverse Polish Notation Syntax" << endl;
+        return;
+    }
+    
+    cout << "My Calculation: " << myStack.back() << endl;
+}
+
+
+void testRPNProvidedUseCases(){
+    /*
+     input:  123 2 + 50 25 25 + + *
+     (123+2) | 25 + 25 + 50|
+     125       100
+     125 * 100
+     output: 12500
+     input:  99999999999999999999999999999999999999999999999 2 * 1 -
+     2 *  999....  - 1
+     output: 199999999999999999999999999999999999999999999997
+     input:  -3 -4 *
+     output: 12
+     */
+    
+    vector<string> useCases;
+    useCases.push_back("5 1 2 + 4 * + 3 -");
+    useCases.push_back("123 2 + 50 25 25 + + *");
+    useCases.push_back("123 321 +");
+    useCases.push_back("123 + 321"); //should fail
+    useCases.push_back("123 2 + 50 25 25 + + "); //should fail
+    useCases.push_back("123 2 + 50 25 25 + + + + + "); //should fail
+    
+    for (int i = 0; i < useCases.size(); i++){
+        vector<string> parsedInput = parseString(useCases[i]);
+        RPNCalcuator(parsedInput);
+        
+    }
+    
+}
+
+int main(int argc, const char * argv[]) {
+    /*
     testAddition();
     testSubtraction();
     testMultiply();
     testDivide();
     testScenarioTwo();
-
+*/
+    testRPNProvidedUseCases();
+    
     return 0;
 }

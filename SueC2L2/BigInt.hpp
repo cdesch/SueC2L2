@@ -59,6 +59,10 @@ public:
         return !this->getNegative();
     }
     
+    void setNegativeHandledDivideOverride(bool negOverride){
+        this->negativeHandledDivideOverride = negOverride;
+    }
+    
 };
 
 //Constructor
@@ -193,10 +197,11 @@ bool BigInt::handleNegativesForAddition(const BigInt & a){
 void BigInt::add(const BigInt & a){
     
     //cout << __PRETTY_FUNCTION__ << endl;
- 
-    if(!this->negativeHandled){
-        if(this->handleNegativesForAddition(a)){
-            return;
+    if(!this->negativeHandledDivideOverride){
+        if(!this->negativeHandled){
+            if(this->handleNegativesForAddition(a)){
+                return;
+            }
         }
     }
     
@@ -334,10 +339,6 @@ void BigInt::subtract(const BigInt & a){
             }
         }
     }
-
-    
-    //cout << "should be here" << endl;
-    
     
     int maxindex = 0;  //maximum index
     int index = 0;
@@ -502,6 +503,7 @@ void BigInt::divide(const BigInt & a){
     }
     
     BigInt frontPart;
+    frontPart.setNegativeHandledDivideOverride(true);
     SmcArray<int> frontDigits;
     for(int i = 0; i < a.getSize(); i++){ //Looping to get digits
         frontDigits.setItem(this->digits.getItem(i), i);
@@ -520,7 +522,6 @@ void BigInt::divide(const BigInt & a){
     
     //When the number of digits in numerator and denominator are the same and making sure the numbers are different
     while (numeratorIndex == this->digits.getSize() && (a.compareAbsoluteValue(frontPart) != 1)){
-        cout << " first While" << endl;
         frontPart.subtract(a);
         //frontPart.print(); // for debugging
         numTimesSubtracted = numTimesSubtracted + 1;
@@ -531,11 +532,9 @@ void BigInt::divide(const BigInt & a){
     //When the number of digits in numerator is greater than the number of digits in the denominator
     while(numeratorIndex < this->digits.getSize()){
         
-                cout << " second While" << endl;
         //If denominator is larger than the front part of numerator then add a digit to numerator number
         numTimesSubtracted = 0; //Setting counter equal to zero
         while(a.compareAbsoluteValue(frontPart) == 1 ){ //Do while the
-                    cout << " third While" << endl;
             if(frontPart.digits.getSize() > this->digits.getSize()){ //Checking to make sure length of numbers is okay
                 cout << "Problem with length " << endl; //Error message
             }
@@ -547,10 +546,10 @@ void BigInt::divide(const BigInt & a){
         //frontPart.print(); // for debugging
         
         while (a.compareAbsoluteValue(frontPart) != 1 && numeratorIndex <= this->digits.getSize()){ //Comparing the numerator and denominator front part are not equal and the numerator index is less than or equal to the digit size
+            
             frontPart.subtract(a); //Subtract the front part from the numerator
             //frontPart.print(); // for debugging
             numTimesSubtracted ++; //Incrementing the counter that is counting the number of times the denominator is subtracted from the denominator
-                    cout << " fourth While" << endl;
         }
         
         //cout << "times subtracted " << numTimesSubtracted << " Numerator index: " << numeratorIndex << endl; // debugging statement
